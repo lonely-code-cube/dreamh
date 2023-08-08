@@ -1714,6 +1714,15 @@
       }
     }
   ],
+  "@types/zxcvbn!>=4.4.1 <5.0.0-0": [
+    "4.4.1",
+    {
+      "name": "@types/zxcvbn",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@types/zxcvbn/-/zxcvbn-4.4.1.tgz"
+      }
+    }
+  ],
   "@typescript-eslint/eslint-plugin!>=5.45.0 <6.0.0-0": [
     "5.62.0",
     {
@@ -7536,6 +7545,26 @@
         "prepare": "npm run build",
         "pretest": "npm run build && rollup -c rollup.test.config.js",
         "test": "mocha tests/bundle.cjs"
+      }
+    }
+  ],
+  "zxcvbn!>=4.4.2 <5.0.0-0": [
+    "4.4.2",
+    {
+      "name": "zxcvbn",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/zxcvbn/-/zxcvbn-4.4.2.tgz"
+      },
+      "scripts": {
+        "build": "npm run build-lib ; npm run build-dist",
+        "build-dist": "browserify --debug  --standalone zxcvbn -t coffeeify --extension='.coffee' -t uglifyify src/main.coffee |   exorcist --base . dist/zxcvbn.js.map >| dist/zxcvbn.js",
+        "build-lib": "coffee -o lib --compile --bare --map src/*.coffee",
+        "prepublish": "npm run build",
+        "test": "coffeetape test/*.coffee | faucet",
+        "test-saucelabs": "zuul -- test/*.coffee",
+        "watch": "npm run watch-lib & npm run watch-dist",
+        "watch-dist": "watchify --debug -v --standalone zxcvbn -t coffeeify --extension='.coffee' -t uglifyify src/main.coffee -o 'exorcist --base . dist/zxcvbn.js.map >| dist/zxcvbn.js'",
+        "watch-lib": "coffee -o lib --compile --bare --map --watch src/*.coffee"
       }
     }
   ]
