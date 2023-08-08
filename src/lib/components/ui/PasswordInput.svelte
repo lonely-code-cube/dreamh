@@ -6,6 +6,7 @@
 	export let placeholder: string | null = null;
 	export let error: string | null = null;
 	export let entropyBasis: string[] = [];
+	export let entropy = true;
 
 	let score: null | number = null;
 	let show = false;
@@ -44,17 +45,19 @@
 	{#if error}
 		<label for="input" class="text-error">{error}</label>
 	{/if}
-	{#if score != null}
-		<progress
-			class:e0={score == 0}
-			class:e1={score == 1}
-			class:e2={score == 2}
-			class:e3={score == 3}
-			class:e4={score == 4}
-			class="w-full progress progress-error transition"
-			value={score * 25}
-			max="100"
-		/>
+	{#if entropy}
+		{#if score != null}
+			<progress
+				class:e0={score == 0}
+				class:e1={score == 1}
+				class:e2={score == 2}
+				class:e3={score == 3}
+				class:e4={score == 4}
+				class="w-full progress progress-error transition"
+				value={score * 25}
+				max="100"
+			/>
+		{/if}
 	{/if}
 </div>
 

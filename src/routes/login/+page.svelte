@@ -1,5 +1,29 @@
 <script lang="ts">
-	import Icon from '@iconify/svelte';
+	import PasswordInput from '$lib/components/ui/PasswordInput.svelte';
+	import EmailInput from '$lib/components/ui/EmailInput.svelte';
+
+	let disabled = true;
+
+	let email: string | null;
+	let password: string | null;
+
+	let email_error: string | null = null;
+	let password_error: string | null = null;
+
+	function onUpdate() {
+		if (email && password) {
+			disabled = false;
+		} else {
+			disabled = true;
+		}
+		if (email?.trim().length === 0) {
+			email_error = 'This stuff is required';
+		} else if (password?.trim().length === 0) {
+			password_error = 'This stuff is required';
+		}
+	}
+
+	$: email, password, onUpdate();
 </script>
 
 <svelte:head>
@@ -10,16 +34,14 @@
 	<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5 shadow-lg shadow-base-300 mx-5">
 		<h2 class="font-bold text-3xl">Login</h2>
 		<form class="flex flex-col gap-2 mt-5">
-			<input
-				placeholder="Email"
-				class="border-b border-neutral bg-transparent pt-4 pb-1.5 text-sm outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-primary focus:outline-0"
-				type="text"
-			/><input
-				placeholder="Passowrd"
-				class="border-b border-neutral bg-transparent pt-4 pb-1.5 text-sm outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-primary focus:outline-0"
-				type="text"
+			<EmailInput bind:error={email_error} bind:value={email} placeholder="Email" />
+			<PasswordInput
+				bind:error={password_error}
+				bind:value={password}
+				entropy={false}
+				placeholder="Password"
 			/>
-			<button class="btn btn-primary mt-5" type="submit">Login</button>
+			<button {disabled} class="btn btn-primary mt-5" type="submit">Login</button>
 		</form>
 		<div class="mt-2 mb-5">
 			Or just <a class="link link-primary" href="/register">register</a>
