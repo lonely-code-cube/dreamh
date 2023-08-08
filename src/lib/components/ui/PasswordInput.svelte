@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
-	import { slide } from 'svelte/transition';
 	import zxcvbn from 'zxcvbn';
 
 	export let value: string | null = null;
@@ -17,11 +16,11 @@
 		if (password) {
 			let entropy = zxcvbn(password, entropyBasis);
 			score = entropy.score;
-			value = password;
 		} else {
 			score = null;
 		}
 		error = null;
+		value = password;
 	}
 </script>
 
@@ -43,7 +42,7 @@
 		</label>
 	</div>
 	{#if error}
-		<label transition:slide={{ axis: 'y' }} for="input" class="text-error">{error}</label>
+		<label for="input" class="text-error">{error}</label>
 	{/if}
 	{#if score != null}
 		<progress

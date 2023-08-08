@@ -3,11 +3,9 @@
 	export let placeholder: string | null = null;
 	export let error: string | null = null;
 
-	import { slide } from 'svelte/transition';
-
 	function onInput(event: Event) {
-		value = (event.target as HTMLInputElement).value;
 		error = null;
+		value = (event.target as HTMLInputElement).value;
 	}
 </script>
 
@@ -26,7 +24,7 @@
 		</div>
 	</div>
 	{#if error}
-		<label transition:slide={{ axis: 'y' }} for="input" class="text-error">{error}</label>
+		<label for="input" class="text-error">{error}</label>
 	{/if}
 </div>
 
