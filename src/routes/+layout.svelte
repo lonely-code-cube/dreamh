@@ -34,7 +34,7 @@
 		>
 			<Icon class="text-2xl" icon="ic:round-menu" />
 		</label>
-		<nav class="sticky top-0 navbar bg-base-100">
+		<nav class="z-30 sticky top-0 navbar bg-base-100 bg-opacity-50 backdrop-blur-md shadow-lg">
 			<div class="navbar-start" />
 			<div class="navbar-end">
 				<div class="dropdown dropdown-left dropdown-bottom">
@@ -101,7 +101,7 @@
 		<!-- page content  -->
 		<slot />
 	</div>
-	<div class="drawer-side">
+	<div class="drawer-side z-40">
 		<label for="sidebar" class="drawer-overlay" />
 		<ul class="menu inline-block p-4 w-80 h-full bg-base-200 text-base-content overflow-scroll">
 			<div class="lg:hidden ml-16 text-2xl h-[6vh] font-bold">
