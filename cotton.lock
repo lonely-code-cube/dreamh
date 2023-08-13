@@ -3065,6 +3065,23 @@
       }
     }
   ],
+  "easy-reactive!1.0.4": [
+    "1.0.4",
+    {
+      "name": "easy-reactive",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/easy-reactive/-/easy-reactive-1.0.4.tgz"
+      },
+      "dependencies": {
+        "lodash.clonedeep": ">=4.5.0 <5.0.0-0",
+        "lodash.get": ">=4.4.2 <5.0.0-0",
+        "lodash.isequal": ">=4.5.0 <5.0.0-0"
+      },
+      "scripts": {
+        "test": "jest"
+      }
+    }
+  ],
   "electron-to-chromium!>=1.4.431 <2.0.0-0": [
     "1.4.463",
     {
@@ -4854,6 +4871,42 @@
       },
       "scripts": {
         "test": "xo && ava && tsd"
+      }
+    }
+  ],
+  "lodash.clonedeep!>=4.5.0 <5.0.0-0": [
+    "4.5.0",
+    {
+      "name": "lodash.clonedeep",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz"
+      },
+      "scripts": {
+        "test": "echo \"See https://travis-ci.org/lodash/lodash-cli for testing details.\""
+      }
+    }
+  ],
+  "lodash.get!>=4.4.2 <5.0.0-0": [
+    "4.4.2",
+    {
+      "name": "lodash.get",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz"
+      },
+      "scripts": {
+        "test": "echo \"See https://travis-ci.org/lodash/lodash-cli for testing details.\""
+      }
+    }
+  ],
+  "lodash.isequal!>=4.5.0 <5.0.0-0": [
+    "4.5.0",
+    {
+      "name": "lodash.isequal",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
+      },
+      "scripts": {
+        "test": "echo \"See https://travis-ci.org/lodash/lodash-cli for testing details.\""
       }
     }
   ],
@@ -6708,6 +6761,25 @@
         "posttest": "agadoo src/internal/index.js",
         "test": "vitest run && echo \"manually check that there are no type errors in test/types by opening the files in there\"",
         "types": "node ./scripts/generate-dts.js"
+      }
+    }
+  ],
+  "svelte-carousel!>=1.0.25 <2.0.0-0": [
+    "1.0.25",
+    {
+      "name": "svelte-carousel",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/svelte-carousel/-/svelte-carousel-1.0.25.tgz"
+      },
+      "dependencies": {
+        "easy-reactive": "1.0.4"
+      },
+      "scripts": {
+        "build:docs": "rollup -c",
+        "dev:docs": "rollup -c -w",
+        "start": "sirv docs",
+        "storybook": "start-storybook -p 6006",
+        "test": "jest"
       }
     }
   ],
