@@ -139,8 +139,6 @@
 							<Icon class="text-2xl" icon="icon-park-solid:play" />
 							<span
 								>D<sub>2</sub>O<sub>5</sub> Player
-								<span class="badge badge-warning">redirect</span></span
-							>
 						</a>
 					</li>
 					<li>
@@ -148,8 +146,6 @@
 							<Icon class="text-2xl" icon="mdi:read-more" />
 							<span
 								>D<sub>2</sub>O<sub>5</sub> Reader
-								<span class="badge badge-warning">redirect</span></span
-							>
 						</a>
 					</li>
 					<li>

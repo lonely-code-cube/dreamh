@@ -40,7 +40,9 @@
 	"dependencies": {
 		"@urql/svelte": "^4.0.3",
 		"graphql": "^16.7.1",
+		"hls.js": "^1.4.10",
 		"theme-change": "^2.5.0",
+		"vidstack": "^0.6.13",
 		"zxcvbn": "^4.4.2"
 	}
 }

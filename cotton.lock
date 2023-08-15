@@ -1274,6 +1274,27 @@
       }
     }
   ],
+  "@maverick-js/signals!>=5.10.3 <6.0.0-0": [
+    "5.11.2",
+    {
+      "name": "@maverick-js/signals",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@maverick-js/signals/-/signals-5.11.2.tgz"
+      },
+      "scripts": {
+        "bench:layers": "pnpm build && node bench/layers.js",
+        "build": "rimraf dist && rollup -c && pnpm types",
+        "format": "prettier src --write --loglevel warn",
+        "release": "pnpm validate && standard-version && git push --follow-tags origin main && npm publish",
+        "test": "vitest run",
+        "test:gc": "node --expose-gc ./vitest.js",
+        "test:gc:watch": "node --expose-gc ./vitest.js --watch",
+        "test:watch": "vitest watch",
+        "types": "tsc -p tsconfig.build.json",
+        "validate": "pnpm test && pnpm test:gc && pnpm build"
+      }
+    }
+  ],
   "@nodelib/fs.scandir!2.1.5": [
     "2.1.5",
     {
@@ -1557,6 +1578,47 @@
       }
     }
   ],
+  "@stencil/core!2.5.2": [
+    "2.5.2",
+    {
+      "name": "@stencil/core",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@stencil/core/-/core-2.5.2.tgz"
+      },
+      "bin": {
+        "stencil": "bin/stencil"
+      },
+      "scripts": {
+        "build": "node scripts && npm run tsc.prod && npm run rollup.prod.ci",
+        "build.prod": "node scripts && npm run tsc.scripts && npm run tsc.prod && npm run rollup.prod.ci",
+        "license": "node scripts --license",
+        "prettier": "prettier --write \"./src/**/*.{ts,tsx}\"",
+        "release": "node scripts --release --publish",
+        "release.prepare": "node scripts --release --prepare",
+        "rollup": "rollup --config",
+        "rollup.prod": "rollup --config --config-prod",
+        "rollup.prod.ci": "rollup --config --config-prod --config-ci",
+        "rollup.watch": "rollup --watch --config",
+        "start": "npm run watch",
+        "test": "jest",
+        "test.analysis": "cd test && npm run build",
+        "test.dist": "node scripts --validate-build",
+        "test.end-to-end": "cd test/end-to-end && npm i && npm test && npm run test.dist",
+        "test.jest": "jest",
+        "test.karma": "cd test/karma && npm run karma",
+        "test.karma.prod": "cd test/karma && npm run karma.prod",
+        "test.prod": "npm run test.dist && npm run test.end-to-end && npm run test.jest && npm run test.karma && npm run test.sys.node && npm run test.testing",
+        "test.sys.node": "echo test.sys.node",
+        "test.testing": "node scripts/test/validate-testing.js",
+        "test.watch": "jest --watch",
+        "tsc": "tsc --incremental",
+        "tsc.prod": "tsc",
+        "tsc.scripts": "tsc -p scripts/tsconfig.json",
+        "tsc.watch": "tsc --incremental --watch",
+        "watch": "node scripts && npm run tsc && concurrently \"npm run rollup.watch\" \"npm run tsc.watch\""
+      }
+    }
+  ],
   "@sveltejs/adapter-auto!>=2.0.0 <3.0.0-0": [
     "2.1.0",
     {
@@ -1675,6 +1737,15 @@
       "name": "@types/estree",
       "dist": {
         "tarball": "https://registry.npmjs.org/@types/estree/-/estree-1.0.1.tgz"
+      }
+    }
+  ],
+  "@types/fscreen!>=1.0.1 <2.0.0-0": [
+    "1.0.1",
+    {
+      "name": "@types/fscreen",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@types/fscreen/-/fscreen-1.0.1.tgz"
       }
     }
   ],
@@ -1967,6 +2038,51 @@
         "clean": "rimraf dist",
         "lint": "eslint --ext=js,jsx,ts,tsx .",
         "test": "vitest --config ../../vitest.config.ts"
+      }
+    }
+  ],
+  "@vime/core!>=5.4.1 <6.0.0-0": [
+    "5.4.1",
+    {
+      "name": "@vime/core",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@vime/core/-/core-5.4.1.tgz"
+      },
+      "dependencies": {
+        "@stencil/core": "2.5.2",
+        "@types/fscreen": ">=1.0.1 <2.0.0-0",
+        "fscreen": ">=1.2.0 <2.0.0-0",
+        "mitt": ">=3.0.0 <4.0.0-0",
+        "stencil-wormhole": ">=3.4.1 <4.0.0-0"
+      },
+      "scripts": {
+        "build": "run-s clean build:themes build:stencil",
+        "build:stencil": "stencil build",
+        "build:theme:default": "cleancss -o themes/default.css src/themes/default.css",
+        "build:theme:light": "cleancss -o themes/light.css src/themes/light.css",
+        "build:themes": "rimraf themes && mkdir themes && run-s build:theme:*",
+        "build:watch": "stencil build --watch",
+        "clean": "run-s clean:*",
+        "clean:build": "rimraf dist loader www icons themes",
+        "clean:docs": "npm run clean --prefix ../../docs"
+      }
+    }
+  ],
+  "@vime/svelte!>=5.4.1 <6.0.0-0": [
+    "5.4.1",
+    {
+      "name": "@vime/svelte",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@vime/svelte/-/svelte-5.4.1.tgz"
+      },
+      "scripts": {
+        "build": "run-s clean:build build:cjs build:esm",
+        "build:cjs": "tsc --target es5 --module commonjs --outDir dist/cjs",
+        "build:esm": "tsc --outDir dist/esm",
+        "build:watch": "npm run build:esm -- --watch --incremental",
+        "clean": "rimraf dist src/components src/svelte",
+        "clean:build": "rimraf dist",
+        "postinstall": "node ./.scripts/validate.cjs"
       }
     }
   ],
@@ -4068,6 +4184,21 @@
       }
     }
   ],
+  "fscreen!>=1.2.0 <2.0.0-0": [
+    "1.2.0",
+    {
+      "name": "fscreen",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/fscreen/-/fscreen-1.2.0.tgz"
+      },
+      "scripts": {
+        "build": "rollpkg build",
+        "dev": "npm link && npm run watch",
+        "prepublishOnly": "npm run build",
+        "watch": "rollpkg watch"
+      }
+    }
+  ],
   "fsevents!2.3.2?": [
     "2.3.2",
     {
@@ -4358,6 +4489,45 @@
       },
       "scripts": {
         "test": "xo && ava && tsd"
+      }
+    }
+  ],
+  "hls.js!>=1.4.10 <2.0.0-0": [
+    "1.4.10",
+    {
+      "name": "hls.js",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/hls.js/-/hls.js-1.4.10.tgz"
+      },
+      "scripts": {
+        "build": "rollup --config && npm run build:types",
+        "build:ci": "rollup --config && tsc --build tsconfig-lib.json && api-extractor run && es-check",
+        "build:debug": "rollup --config --configType full --configType demo",
+        "build:types": "tsc --build tsconfig-lib.json && api-extractor run --local",
+        "build:watch": "rollup --config --configType full --configType demo --watch",
+        "dev": "run-p build:watch serve",
+        "docs": "doctoc ./docs/API.md && api-documenter markdown -i api-extractor -o api-extractor/api-documenter && rm api-extractor/api-documenter/index.md && npm run docs-md-to-html",
+        "docs-md-to-html": "generate-md --layout github --input api-extractor/api-documenter --output api-docs",
+        "lint": "eslint src/ tests/ --ext .js --ext .ts",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:quiet": "npm run lint -- --quiet",
+        "lint:staged": "lint-staged",
+        "prepare": "husky install",
+        "pretest": "npm run lint",
+        "prettier": "prettier --write .",
+        "prettier:verify": "prettier --check .",
+        "sanity-check": "npm run lint && npm run prettier:verify && npm run type-check && npm run build && es-check && npm run docs && npm run test:unit",
+        "serve": "http-server -o '/demo' .",
+        "start": "npm run dev",
+        "test": "npm run test:unit && npm run test:func",
+        "test:func": "BABEL_ENV=development mocha --require @babel/register tests/functional/auto/setup.js --timeout 40000 --exit",
+        "test:func:light": "BABEL_ENV=development HLSJS_LIGHT=1 mocha --require @babel/register tests/functional/auto/setup.js --timeout 40000 --exit",
+        "test:func:sauce": "SAUCE=1 UA=safari OS='OS X 10.15' BABEL_ENV=development mocha --require @babel/register tests/functional/auto/setup.js --timeout 40000 --exit",
+        "test:unit": "karma start karma.conf.js",
+        "test:unit:debug": "DEBUG_UNIT_TESTS=1 karma start karma.conf.js --auto-watch --no-single-run --browsers Chrome",
+        "test:unit:watch": "karma start karma.conf.js --auto-watch --no-single-run",
+        "type-check": "tsc --noEmit",
+        "type-check:watch": "npm run type-check -- --watch"
       }
     }
   ],
@@ -5041,6 +5211,30 @@
       }
     }
   ],
+  "maverick.js!0.37.0": [
+    "0.37.0",
+    {
+      "name": "maverick.js",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/maverick.js/-/maverick.js-0.37.0.tgz"
+      },
+      "dependencies": {
+        "@maverick-js/signals": ">=5.10.3 <6.0.0-0",
+        "type-fest": ">=3.8.0 <4.0.0-0"
+      },
+      "scripts": {
+        "build": "rimraf dist && tsup && pnpm types",
+        "dev": "pnpm run build --watch",
+        "format": "prettier src --write --loglevel warn",
+        "test": "pnpm test:client && pnpm test:server",
+        "test:client": "vitest --run",
+        "test:client:watch": "vitest --watch",
+        "test:server": "SERVER=true vitest --run",
+        "test:server:watch": "SERVER=true vitest --watch",
+        "types": "tsc -p tsconfig.build.json"
+      }
+    }
+  ],
   "mdn-data!2.0.30": [
     "2.0.30",
     {
@@ -5051,6 +5245,27 @@
       "scripts": {
         "lint": "node test/lint",
         "test": "npm run lint"
+      }
+    }
+  ],
+  "media-captions!0.0.18": [
+    "0.0.18",
+    {
+      "name": "media-captions",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/media-captions/-/media-captions-0.0.18.tgz"
+      },
+      "scripts": {
+        "build": "pnpm clean && rollup -c && pnpm types",
+        "clean": "rimraf dist",
+        "dev": "pnpm clean && rollup -c -w & pnpm run types -w",
+        "format": "prettier src --write --loglevel warn",
+        "release": "pnpm validate && standard-version && git push --follow-tags origin main && npm publish",
+        "sandbox": "node ./.sandbox/launch.js",
+        "test": "vitest --run",
+        "test:watch": "vitest --watch --single-thread",
+        "types": "tsc -p tsconfig.build.json",
+        "validate": "pnpm test && pnpm build"
       }
     }
   ],
@@ -5252,6 +5467,27 @@
         "test": "npm run tests-only",
         "tests-only": "nyc tape 'test/**/*.js'",
         "version": "auto-changelog && git add CHANGELOG.md"
+      }
+    }
+  ],
+  "mitt!>=3.0.0 <4.0.0-0": [
+    "3.0.1",
+    {
+      "name": "mitt",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz"
+      },
+      "scripts": {
+        "build": "npm-run-all --silent clean -p bundle -s docs",
+        "bundle": "microbundle -f es,cjs,umd",
+        "clean": "rimraf dist",
+        "docs": "documentation readme src/index.ts --section API -q --parse-extension ts",
+        "lint": "eslint src test --ext ts --ext js",
+        "mocha": "mocha test",
+        "release": "npm run -s build -s && npm t && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
+        "test": "npm-run-all --silent typecheck lint mocha test-types",
+        "test-types": "tsc test/test-types-compilation.ts --noEmit --strict",
+        "typecheck": "tsc --noEmit"
       }
     }
   ],
@@ -6592,6 +6828,21 @@
       }
     }
   ],
+  "stencil-wormhole!>=3.4.1 <4.0.0-0": [
+    "3.4.1",
+    {
+      "name": "stencil-wormhole",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/stencil-wormhole/-/stencil-wormhole-3.4.1.tgz"
+      },
+      "scripts": {
+        "build": "rm -rf dist && npm run build:cjs && npm run build:esm",
+        "build:cjs": "tsc --module commonjs --target es5 --outDir dist/cjs",
+        "build:esm": "tsc --module es2015 --target es5 --outDir dist/esm",
+        "release": "semantic-release"
+      }
+    }
+  ],
   "streamsearch!>=1.1.0 <2.0.0-0": [
     "1.1.0",
     {
@@ -7261,6 +7512,18 @@
       }
     }
   ],
+  "type-fest!>=3.8.0 <4.0.0-0": [
+    "3.13.1",
+    {
+      "name": "type-fest",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/type-fest/-/type-fest-3.13.1.tgz"
+      },
+      "scripts": {
+        "test": "xo && tsd && tsc && node script/test/source-files-extension.js"
+      }
+    }
+  ],
   "typescript!>=5.0.0 <6.0.0-0": [
     "5.1.6",
     {
@@ -7397,6 +7660,34 @@
       },
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
+      }
+    }
+  ],
+  "vidstack!>=0.6.13 <0.7.0-0": [
+    "0.6.13",
+    {
+      "name": "vidstack",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/vidstack/-/vidstack-0.6.13.tgz"
+      },
+      "dependencies": {
+        "maverick.js": "0.37.0",
+        "media-captions": "0.0.18",
+        "type-fest": ">=3.8.0 <4.0.0-0"
+      },
+      "scripts": {
+        "analyze": "maverick analyze \"src/**/*.tsx\"",
+        "build": "rollup -c",
+        "clean": "rimraf dist",
+        "dev": "pnpm clean && rollup -c -w & pnpm run types -w",
+        "format": "prettier src --write --loglevel warn",
+        "sandbox": "node ../../.scripts/sandbox.js",
+        "sandbox:build": "vite build sandbox",
+        "test": "vitest --run",
+        "test:server": "SERVER=true vitest --run",
+        "test:server:watch": "SERVER=true vitest --watch",
+        "test:watch": "vitest --watch",
+        "types": "tsc -p tsconfig.build.json"
       }
     }
   ],
