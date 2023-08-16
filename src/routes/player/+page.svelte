@@ -28,7 +28,7 @@
 					bind:value
 					placeholder="m3u8 link"
 					type="text"
-					class="input input-bordered bg-base-200 mt-5"
+					class="input input-bordered bg-base-200 mt-5 md:w-[400px]"
 				/>
 				<a class="btn" href={'/player?src=' + value} class:btn-disabled={value === null}
 					>Play <Icon class="text-xl" icon="solar:play-circle-bold" /></a
