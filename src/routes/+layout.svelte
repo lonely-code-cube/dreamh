@@ -4,9 +4,12 @@
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
 	import { themeChange } from 'theme-change';
-	import { page } from '$app/stores';
+	import { page, navigating } from '$app/stores';
 
 	import { Client, setContextClient, cacheExchange, fetchExchange } from '@urql/svelte';
+	import Modal from '$lib/components/ui/Modal.svelte';
+	import TextInput from '$lib/components/ui/TextInput.svelte';
+	import EntityPreview from '$lib/components/EntityPreview.svelte';
 	const client = new Client({
 		url: 'http://localhost:8000/gql',
 		exchanges: [cacheExchange, fetchExchange]
@@ -20,6 +23,7 @@
 	let currentPage: string = '/';
 	$: currentPage = $page.url.pathname;
 	let menuState: boolean;
+	let searchOpen = false;
 </script>
 
 <div class="drawer lg:drawer-open">
@@ -83,9 +87,21 @@
 						</li>
 					</ul>
 				</div>
-				<button class="btn btn-ghost btn-circle">
+				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
 					<Icon class="text-2xl" icon="icon-park-outline:search" />
 				</button>
+				<Modal bind:open={searchOpen}>
+					<div class="md:w-[600px] min-h-[300px] max-h-[700px]">
+						<TextInput placeholder="Search">
+							<svelte:fragment slot="icon">
+								<Icon class="text-2xl" icon="fe:search" />
+							</svelte:fragment>
+						</TextInput>
+						<div class="my-3">
+							<EntityPreview thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg" title="Kayuya Sama: Love Is War" url="/" />
+						</div>
+					</div>
+				</Modal>
 				<button class="btn btn-ghost btn-circle">
 					<a href="/" class="avatar">
 						<div class="w-10 rounded-full">
@@ -99,7 +115,13 @@
 			</div>
 		</nav>
 		<!-- page content  -->
-		<slot />
+		{#if $navigating}
+			<div class="h-screen flex items-center justify-center">
+				<div class="loading loading-lg" />
+			</div>
+		{:else}
+			<slot />
+		{/if}
 	</div>
 	<div class="drawer-side z-40">
 		<label for="sidebar" class="drawer-overlay" />
@@ -137,16 +159,14 @@
 					<li>
 						<a href="/player" class:active={currentPage.startsWith('/player')}>
 							<Icon class="text-2xl" icon="icon-park-solid:play" />
-							<span
-								>D<sub>2</sub>O<sub>5</sub> Player
-						</a>
+							<span>D<sub>2</sub>O<sub>5</sub> Player </span></a
+						>
 					</li>
 					<li>
 						<a href="/reader" class:active={currentPage.startsWith('/reader')}>
 							<Icon class="text-2xl" icon="mdi:read-more" />
-							<span
-								>D<sub>2</sub>O<sub>5</sub> Reader
-						</a>
+							<span>D<sub>2</sub>O<sub>5</sub> Reader </span></a
+						>
 					</li>
 					<li>
 						<a href="/index" class:active={currentPage.startsWith('/index')}>

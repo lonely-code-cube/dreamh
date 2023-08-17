@@ -15,7 +15,7 @@
 
 <div>
 	{#if data.src}
-		<media-player src={data.src} poster={data.poster} aspect-ratio="16/9" crossorigin>
+		<media-player class="aspect-video" src={data.src} poster={data.poster} aspect-ratio="16/9" crossorigin>
 			<media-outlet />
 			<media-community-skin />
 		</media-player>

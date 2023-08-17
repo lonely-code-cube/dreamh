@@ -1713,6 +1713,18 @@
       }
     }
   ],
+  "@tailwindcss/aspect-ratio!>=0.4.2 <0.5.0-0": [
+    "0.4.2",
+    {
+      "name": "@tailwindcss/aspect-ratio",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@tailwindcss/aspect-ratio/-/aspect-ratio-0.4.2.tgz"
+      },
+      "scripts": {
+        "test": "jest"
+      }
+    }
+  ],
   "@types/cookie!>=0.5.1 <0.6.0-0": [
     "0.5.1",
     {

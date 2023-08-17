@@ -8,7 +8,7 @@ export default {
       'inter': ['Inter', ...defaultTheme.fontFamily.sans],
     }
   },
-  plugins: [require("daisyui")],
+  plugins: [require("daisyui"), require('@tailwindcss/aspect-ratio')],
   daisyui: {
     themes: ["dracula", "cupcake", "halloween", "pastel", "night", "valentine"],
   }
