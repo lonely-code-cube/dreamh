@@ -6,13 +6,27 @@
 	import { themeChange } from 'theme-change';
 	import { page, navigating } from '$app/stores';
 
-	import { Client, setContextClient, cacheExchange, fetchExchange } from '@urql/svelte';
+	import {
+		Client,
+		setContextClient,
+		cacheExchange,
+		fetchExchange,
+		ssrExchange
+	} from '@urql/svelte';
+	const isServerSide = typeof window === 'undefined';
+	const ssr = ssrExchange({
+		isClient: !isServerSide,
+		//@ts-ignore
+		initialState: !isServerSide ? window.__URQL_DATA__ : undefined
+	});
+
 	import Modal from '$lib/components/ui/Modal.svelte';
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
+
 	const client = new Client({
 		url: 'http://localhost:8000/gql',
-		exchanges: [cacheExchange, fetchExchange]
+		exchanges: [cacheExchange, ssr, fetchExchange]
 	});
 	setContextClient(client);
 
@@ -91,14 +105,18 @@
 					<Icon class="text-2xl" icon="icon-park-outline:search" />
 				</button>
 				<Modal bind:open={searchOpen}>
-					<div class="md:w-[600px] min-h-[300px] max-h-[700px]">
+					<div class="w-[300px] md:w-[600px] min-h-[300px] max-h-[700px]">
 						<TextInput placeholder="Search">
 							<svelte:fragment slot="icon">
 								<Icon class="text-2xl" icon="fe:search" />
 							</svelte:fragment>
 						</TextInput>
 						<div class="my-3">
-							<EntityPreview thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg" title="Kayuya Sama: Love Is War" url="/" />
+							<EntityPreview
+								thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg"
+								title="Kayuya Sama: Love Is War"
+								url="/"
+							/>
 						</div>
 					</div>
 				</Modal>
@@ -116,8 +134,8 @@
 		</nav>
 		<!-- page content  -->
 		{#if $navigating}
-			<div class="h-screen flex items-center justify-center">
-				<div class="loading loading-lg" />
+			<div class="h-64 flex items-end justify-center">
+				<div class="loading loading-lg text-primary" />
 			</div>
 		{:else}
 			<slot />

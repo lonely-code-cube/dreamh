@@ -7,13 +7,17 @@
 	<title>DreamH Community</title>
 </svelte:head>
 
-<div class="p-5 md:p-10 flex flex-wrap justify-around md:justify-between gap-5">
+<div class="p-5 md:p-10 flex flex-wrap justify-around gap-5">
 	<div>
 		<EntityPreview
 			thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg"
 			title="Kayuya Sama: Love Is War"
 			url="/"
-		/>
+		>
+			<svelte:fragment slot="corner-tl">
+				<div class="bg-base-200 bg-opacity-70 px-1 rounded text-sm">12 ep</div>
+			</svelte:fragment>
+		</EntityPreview>
 	</div>
 	<div>
 		<EntityPreview
