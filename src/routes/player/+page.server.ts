@@ -4,7 +4,6 @@ import { error } from '@sveltejs/kit';
 export async function load({ url, fetch }) {
     const src = url.searchParams.get('src');
     const isJson = url.searchParams.get('json') || false;
-    console.log(src, isJson);
     if (src) {
         try {
             new URL(src);
