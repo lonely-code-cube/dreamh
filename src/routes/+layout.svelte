@@ -1,18 +1,26 @@
 <script lang="ts">
 	import '../app.css';
 
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
+
 	import Icon from '@iconify/svelte';
 	import { themeChange } from 'theme-change';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import { page, navigating } from '$app/stores';
-
+	import { cdn } from '$lib/api';
 	import {
 		Client,
 		setContextClient,
 		cacheExchange,
 		fetchExchange,
-		ssrExchange
+		ssrExchange,
+		mapExchange,
+		queryStore,
+		getContextClient,
+		gql
 	} from '@urql/svelte';
+
 	const isServerSide = typeof window === 'undefined';
 	const ssr = ssrExchange({
 		isClient: !isServerSide,
@@ -23,15 +31,70 @@
 	import Modal from '$lib/components/ui/Modal.svelte';
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
+	import { goto } from '$app/navigation';
+	import type { User } from 'api';
+
+	let user: Writable<{
+		isLoggedIn: boolean;
+		attemptedLogin: boolean;
+		user: User | null;
+	}> = writable({
+		isLoggedIn: false,
+		attemptedLogin: false,
+		user: null
+	});
+	setContext('user', user);
 
 	const client = new Client({
 		url: 'http://localhost:8000/gql',
+		fetchOptions: {
+			credentials: 'include'
+		},
 		exchanges: [cacheExchange, ssr, fetchExchange]
 	});
 	setContextClient(client);
 
 	onMount(() => {
 		themeChange(false);
+		const identity = queryStore({
+			client,
+			query: gql`
+				query {
+					me {
+						user {
+							id
+							username
+							displayName
+							bio
+							pfp {
+								absolutePath
+							}
+							banner {
+								absolutePath
+							}
+							createdAt
+							admin
+						}
+					}
+				}
+			`
+		});
+
+		identity.subscribe((res) => {
+			if (res.data) {
+				user.set({
+					isLoggedIn: true,
+					attemptedLogin: true,
+					user: res.data.me.user
+				});
+			} else if (res.error) {
+				user.set({
+					isLoggedIn: false,
+					attemptedLogin: true,
+					user: null
+				});
+			}
+		});
 	});
 
 	let currentPage: string = '/';
@@ -40,6 +103,7 @@
 	let searchOpen = false;
 </script>
 
+<SvelteToast />
 <div class="drawer lg:drawer-open">
 	<input bind:checked={menuState} id="sidebar" type="checkbox" class="drawer-toggle" />
 	<div class="drawer-content">
@@ -120,16 +184,23 @@
 						</div>
 					</div>
 				</Modal>
-				<button class="btn btn-ghost btn-circle">
-					<a href="/" class="avatar">
-						<div class="w-10 rounded-full">
-							<img
-								src="https://media.dayoftheshirt.com/images/shirts/VWapE/teepublic_shiro-shinchan-pet-dog-crayon-shin-chan-teepublic_1611038324.large.png"
-								alt="pfp"
-							/>
-						</div>
+				{#if $user.isLoggedIn}
+					<div class="btn btn-ghost btn-circle">
+						<a href="/@me" class="avatar">
+							<div class="w-10 rounded-full">
+								{#if $user.user?.pfp?.absolutePath}
+									<img src={cdn($user.user?.pfp?.absolutePath)} alt="user pfp" />
+								{:else}
+									<img src="/default_pfp.png" alt="The default pfp (structure of benzene)" />
+								{/if}
+							</div>
+						</a>
+					</div>
+				{:else}
+					<a href="/@me" class="btn btn-ghost btn-circle">
+						<Icon class="text-2xl" icon="material-symbols:login" />
 					</a>
-				</button>
+				{/if}
 			</div>
 		</nav>
 		<!-- page content  -->
@@ -200,29 +271,31 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<h2 class="menu-title">Account</h2>
-				<!-- svelte-ignore a11y-click-events-have-key-events -->
-				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-				<ul
-					on:click={() => {
-						menuState = false;
-					}}
-				>
-					<li>
-						<a href="/register" class:active={currentPage.startsWith('/register')}>
-							<Icon class="text-2xl" icon="mdi:register" />
-							Register
-						</a>
-					</li>
-					<li>
-						<a href="/login" class:active={currentPage.startsWith('/login')}>
-							<Icon class="text-2xl" icon="solar:login-2-bold" />
-							Login
-						</a>
-					</li>
-				</ul>
-			</li>
+			{#if !$user.isLoggedIn}
+				<li>
+					<h2 class="menu-title">Account</h2>
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+					<ul
+						on:click={() => {
+							menuState = false;
+						}}
+					>
+						<li>
+							<a href="/register" class:active={currentPage.startsWith('/register')}>
+								<Icon class="text-2xl" icon="mdi:register" />
+								Register
+							</a>
+						</li>
+						<li>
+							<a href="/login" class:active={currentPage.startsWith('/login')}>
+								<Icon class="text-2xl" icon="solar:login-2-bold" />
+								Login
+							</a>
+						</li>
+					</ul>
+				</li>
+			{/if}
 			<li>
 				<h2 class="menu-title">About DreamH</h2>
 				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -249,3 +322,11 @@
 		</ul>
 	</div>
 </div>
+
+<style>
+	:global(.error-toast) {
+		--toastWidth: auto;
+		--toastBackground: hsl(var(--b3));
+		--toastBarBackground: hsl(var(--er));
+	}
+</style>

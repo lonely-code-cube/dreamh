@@ -2033,6 +2033,46 @@
       }
     }
   ],
+  "@urql/core!>=4.1.0": [
+    "4.1.1",
+    {
+      "name": "@urql/core",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@urql/core/-/core-4.1.1.tgz"
+      },
+      "dependencies": {
+        "@0no-co/graphql.web": ">=1.0.1 <2.0.0-0",
+        "wonka": ">=6.3.2 <7.0.0-0"
+      },
+      "scripts": {
+        "build": "rollup -c ../../scripts/rollup/config.mjs",
+        "check": "tsc --noEmit",
+        "clean": "rimraf dist",
+        "lint": "eslint --ext=js,jsx,ts,tsx .",
+        "test": "vitest --config ../../vitest.config.ts"
+      }
+    }
+  ],
+  "@urql/exchange-auth!>=2.1.6 <3.0.0-0": [
+    "2.1.6",
+    {
+      "name": "@urql/exchange-auth",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@urql/exchange-auth/-/exchange-auth-2.1.6.tgz"
+      },
+      "dependencies": {
+        "@urql/core": ">=4.1.0",
+        "wonka": ">=6.3.2 <7.0.0-0"
+      },
+      "scripts": {
+        "build": "rollup -c ../../scripts/rollup/config.mjs",
+        "check": "tsc --noEmit",
+        "clean": "rimraf dist extras",
+        "lint": "eslint --ext=js,jsx,ts,tsx .",
+        "test": "vitest --config ../../vitest.config.ts"
+      }
+    }
+  ],
   "@urql/svelte!>=4.0.3 <5.0.0-0": [
     "4.0.3",
     {
@@ -2188,6 +2228,15 @@
         "tsc": "npm run tsc:es5 && npm run tsc:esm",
         "tsc:es5": "tsc -p tsconfig.es5.json",
         "tsc:esm": "tsc -p tsconfig.json"
+      }
+    }
+  ],
+  "@zerodevx/svelte-toast!>=0.9.5 <0.10.0-0": [
+    "0.9.5",
+    {
+      "name": "@zerodevx/svelte-toast",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@zerodevx/svelte-toast/-/svelte-toast-0.9.5.tgz"
       }
     }
   ],
