@@ -15,9 +15,7 @@
 		cacheExchange,
 		fetchExchange,
 		ssrExchange,
-		mapExchange,
 		queryStore,
-		getContextClient,
 		gql
 	} from '@urql/svelte';
 
@@ -31,7 +29,6 @@
 	import Modal from '$lib/components/ui/Modal.svelte';
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
-	import { goto } from '$app/navigation';
 	import type { User } from 'api';
 
 	let user: Writable<{

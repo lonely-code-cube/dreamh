@@ -11,7 +11,7 @@ declare module "api" {
         bio: null | string | undefined,
         pfp: File | undefined,
         banner: File | undefined,
-        createdAt: Date | undefined,
+        createdAt: string | undefined,
         admin: boolean | undefined
     }
 
@@ -31,7 +31,7 @@ declare module "api" {
         icon: File | undefined,
         banner: File | undefined,
         description: string | null | undefined,
-        createdAt: Date | undefined,
+        createdAt: string | undefined,
         ownerId: number | undefined,
     }
 
@@ -53,9 +53,9 @@ declare module "api" {
         media: {
             files: [File] | null
         } | undefined,
-        createdAt: Date | undefined,
+        createdAt: string | undefined,
         edited: boolean | undefined,
-        editedAt: Date | null | undefined,
+        editedAt: string | null | undefined,
         forumId: number | undefined,
         postId: number | undefined,
     }

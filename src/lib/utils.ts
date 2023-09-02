@@ -1,3 +1,9 @@
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+
 export function timeAgo(dateStr: string) {
     const parsedDate = new Date(dateStr);
     const currentDate = new Date();
@@ -20,4 +26,15 @@ export function timeAgo(dateStr: string) {
     } else {
         return seconds + ' seconds ago';
     }
+}
+
+export function formatDate(dateStr: string) {
+    const parsedDate = new Date(dateStr);
+
+    const day = parsedDate.getDate();
+    const monthIndex = parsedDate.getMonth();
+    const year = parsedDate.getFullYear();
+
+    return `${day} ${monthNames[monthIndex]}, ${year}`;
+
 }

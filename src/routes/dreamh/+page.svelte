@@ -190,11 +190,6 @@
 			</div>
 			<div class="bg-base-200 mt-3 px-5 py-3 shadow-lg">
 				<div class="font-bold text-lg underline mb-2">Description</div>
-				<div>
-					Lorem ipsum, dolor sit amet consectetur <Mention {user} /> elit. Voluptas non quos ad, nemo
-					quod iure. Nobis aliquid sed maxime impedit dicta laborum enim dolorum magnam deleniti. Provident
-					iusto numquam commodi?
-				</div>
 			</div>
 		</div>
 	</div>
