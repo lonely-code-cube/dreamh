@@ -38,7 +38,7 @@
 	<title>Create a DreamH Account</title>
 </svelte:head>
 
-<div class="flex justify-center items-center h-screen">
+<div class="flex justify-center items-center h-[600px]">
 	<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5 shadow-lg shadow-base-300 mx-5">
 		<h2 class="font-bold text-3xl">Register</h2>
 		<form class="flex flex-col gap-2 mt-5">
@@ -55,6 +55,10 @@
 		</form>
 		<div class="mt-2 mb-5">
 			Or just <a class="link link-primary" href="/login">login</a>
+		</div>
+		<div class="mt-2 mb-5 text-xs text-base-content/70">
+			By creating an account, you agree to our <a href="/terms" class="link">terms and conditions</a
+			>.
 		</div>
 	</div>
 </div>

@@ -16,6 +16,7 @@
 		user: User | null;
 	}> = getContext('user');
 	let client = getContextClient();
+	let tabIndex = 0;
 
 	let loading = false;
 	let meRes: any;
@@ -32,6 +33,7 @@
 			}
 		`
 	});
+	let pfpCrop: HTMLImageElement;
 	onMount(() => {
 		if (!$user.isLoggedIn) {
 			if (!$user.attemptedLogin) {
@@ -230,6 +232,12 @@
 					>
 						<Icon class="text-2xl" icon="material-symbols:edit" />
 					</button>
+					<button class="absolute top-2 left-2 btn btn-sm bg-opacity-60"
+						>Create Forum <Icon class="text-xl text-primary" icon="mdi:forum-plus" /></button
+					>
+					<button class="absolute top-12 left-2 btn btn-sm bg-opacity-60"
+						>Accept Rewards <Icon class="text-xl text-warning" icon="solar:dollar-bold" /></button
+					>
 				{:else}
 					<div
 						class="h-52 bg-center bg-cover bg-no-repeat bg-base-200 flex justify-center items-center"
@@ -276,7 +284,12 @@
 			<div class="flex flex-wrap gap-5 mx-3 md:mx-5 my-5">
 				<div>
 					<div class="relative z-0 w-full md:w-[400px] lg:w-[600px] bg-base-200 rounded pb-5 px-3">
-						<button class="absolute right-1 top-1 btn btn-circle btn-ghost">
+						<button
+							on:click={() => {
+								tabIndex = 3;
+							}}
+							class="absolute right-1 top-1 btn btn-circle btn-ghost"
+						>
 							<Icon class="text-2xl" icon="material-symbols:edit" />
 						</button>
 						<div class="ml-24 md:ml-28 text-2xl font-bold flex items-center gap-2">
@@ -310,7 +323,7 @@
 									<div class="stat-figure text-primary">
 										<Icon class="text-5xl" icon="iconoir:post" />
 									</div>
-									<div class="stat-title">Post</div>
+									<div class="stat-title">Posts</div>
 									<div class="stat-value">{$meRes.data.me.postCount}</div>
 									<div class="stat-desc">Check activity for recent posts</div>
 								</div>
@@ -342,12 +355,15 @@
 					</div>
 				</div>
 				<div class="flex-grow min-h-[300px] bg-base-200 rounded">
-					<Tabs>
+					<Tabs bind:tabIndex>
 						<div id="Activity">
-							<div class="flex h-full justify-center items-center">
+							<div class="flex flex-col h-full justify-center items-center">
 								<button class="btn btn-primary">Load Activity</button>
+								<div class="text-xm text-base-content/50">Doesnt support yet. Work in pogress.</div>
 							</div>
 						</div>
+						<div id="Assets" />
+						<div id="Settings" />
 						<div id="Edit Profile" />
 					</Tabs>
 				</div>

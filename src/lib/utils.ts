@@ -34,7 +34,8 @@ export function formatDate(dateStr: string) {
     const day = parsedDate.getDate();
     const monthIndex = parsedDate.getMonth();
     const year = parsedDate.getFullYear();
+    const prefix = day === 1 ? 'st' : day === 2 ? 'nd' : day === 3 ? 'rd' : 'th';
 
-    return `${day} ${monthNames[monthIndex]}, ${year}`;
+    return `${day}${prefix} ${monthNames[monthIndex]}, ${year}`;
 
 }

@@ -43,7 +43,9 @@
 		</div>
 	{:else if $forums.error}
 		<div class="h-64 flex items-end justify-center">
-			<div>[<span class="font-bold text-error">ERROR</span>] {$forums.error.message}</div>
+			<div>
+				[<span class="font-bold text-error text-center">ERROR</span>] {$forums.error.message}
+			</div>
 		</div>
 	{:else}
 		<table class="table table-zebra w-full">
@@ -61,10 +63,10 @@
 					<tr>
 						<td>{forum.forum.id}</td>
 						<td>
-							<div>
+							<a href="/f/{forum.forum.name}">
 								<span><Mention bg="neutral">#{forum.forum.name}</Mention></span>
 								<span>({forum.forum.displayName})</span>
-							</div>
+							</a>
 						</td>
 						<td>{forum.postCount}</td>
 						<td>{timeAgo(forum.forum.createdAt)}</td>

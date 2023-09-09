@@ -19,13 +19,6 @@
 		gql
 	} from '@urql/svelte';
 
-	const isServerSide = typeof window === 'undefined';
-	const ssr = ssrExchange({
-		isClient: !isServerSide,
-		//@ts-ignore
-		initialState: !isServerSide ? window.__URQL_DATA__ : undefined
-	});
-
 	import Modal from '$lib/components/ui/Modal.svelte';
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
@@ -47,7 +40,7 @@
 		fetchOptions: {
 			credentials: 'include'
 		},
-		exchanges: [cacheExchange, ssr, fetchExchange]
+		exchanges: [cacheExchange, fetchExchange]
 	});
 	setContextClient(client);
 
@@ -212,7 +205,7 @@
 	<div class="drawer-side z-40">
 		<label for="sidebar" class="drawer-overlay" />
 		<ul class="menu inline-block p-4 w-80 h-full bg-base-200 text-base-content overflow-scroll">
-			<div class="lg:hidden ml-16 text-2xl h-[6vh] font-bold">
+			<div class="ml-16 lg:ml-4 text-2xl h-[6vh] lg:h-[4vh] font-bold">
 				DreamH <span class="text-sm font-thin">V2.0.0</span>
 			</div>
 			<li>
@@ -325,5 +318,17 @@
 		--toastWidth: auto;
 		--toastBackground: hsl(var(--b3));
 		--toastBarBackground: hsl(var(--er));
+	}
+
+	:global(.warning-toast) {
+		--toastWidth: auto;
+		--toastBackground: hsl(var(--b3));
+		--toastBarBackground: hsl(var(--wa));
+	}
+
+	:global(.success-toast) {
+		--toastWidth: auto;
+		--toastBackground: hsl(var(--b3));
+		--toastBarBackground: hsl(var(--su));
 	}
 </style>

@@ -2863,6 +2863,35 @@
       }
     }
   ],
+  "cropperjs!>=1.6.0 <2.0.0-0": [
+    "1.6.0",
+    {
+      "name": "cropperjs",
+      "dist": {
+        "tarball": "https://registry.npmjs.org/cropperjs/-/cropperjs-1.6.0.tgz"
+      },
+      "scripts": {
+        "build": "npm run build:css && npm run build:js",
+        "build:css": "postcss src/index.css -o dist/cropper.css --no-map",
+        "build:js": "rollup -c",
+        "clean": "del-cli dist",
+        "compress": "npm run compress:css && npm run compress:js",
+        "compress:css": "postcss dist/cropper.css -u cssnano -o dist/cropper.min.css --no-map",
+        "compress:js": "uglifyjs dist/cropper.js -o dist/cropper.min.js -c -m --comments /^!/",
+        "copy": "cpy dist/cropper.css docs/css",
+        "lint": "npm run lint:js && npm run lint:css",
+        "lint:css": "stylelint **/*.{css,scss} --fix",
+        "lint:js": "eslint . --fix",
+        "prepare": "husky install",
+        "release": "npm run clean && npm run lint && npm run build && npm run compress && npm run copy && npm test",
+        "start": "npm-run-all --parallel watch:*",
+        "test": "karma start",
+        "test:coverage": "cat coverage/lcov.info | codecov",
+        "watch:css": "postcss src/index.css -o docs/css/cropper.css -m -w",
+        "watch:js": "rollup -c -m -w"
+      }
+    }
+  ],
   "cross-spawn!>=7.0.2 <8.0.0-0": [
     "7.0.3",
     {

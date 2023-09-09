@@ -40,7 +40,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@urql/exchange-auth": "^2.1.6",
 		"@urql/svelte": "^4.0.3",
 		"graphql": "^16.7.1",
 		"hls.js": "^1.4.10",

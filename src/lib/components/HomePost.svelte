@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { Post } from "api";
+
 	export let post: Post;
 </script>
 
