@@ -44,9 +44,6 @@
 	});
 	const anilistClient = new Client({
 		url: 'https://graphql.anilist.co',
-		fetchOptions: {
-			credentials: 'include'
-		},
 		exchanges: [cacheExchange, fetchExchange]
 	});
 

@@ -1,6 +1,126 @@
-<script>
+<script lang="ts">
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
 	import Icon from '@iconify/svelte';
+	import { queryStore, type Client, gql } from '@urql/svelte';
+
+	import { getContext } from 'svelte';
+	let anilist: Client = getContext('anilist');
+
+	const home = queryStore({
+		client: anilist,
+		query: gql`
+			query ($season: MediaSeason, $seasonYear: Int, $nextSeason: MediaSeason, $nextYear: Int) {
+				trendingAnime: Page(page: 1, perPage: 7) {
+					media(sort: TRENDING_DESC, type: ANIME, isAdult: false) {
+						...media
+					}
+				}
+				trendingManga: Page(page: 1, perPage: 7) {
+					media(sort: TRENDING_DESC, type: MANGA, isAdult: false) {
+						...media
+					}
+				}
+				seasonAnime: Page(page: 1, perPage: 7) {
+					media(
+						season: $season
+						seasonYear: $seasonYear
+						sort: POPULARITY_DESC
+						type: ANIME
+						isAdult: false
+					) {
+						...media
+					}
+				}
+				seasonManga: Page(page: 1, perPage: 7) {
+					media(
+						season: $season
+						seasonYear: $seasonYear
+						sort: POPULARITY_DESC
+						type: MANGA
+						isAdult: false
+					) {
+						...media
+					}
+				}
+				nextSeason: Page(page: 1, perPage: 7) {
+					media(
+						season: $nextSeason
+						seasonYear: $nextYear
+						sort: POPULARITY_DESC
+						type: ANIME
+						isAdult: false
+					) {
+						...media
+					}
+				}
+				popular: Page(page: 1, perPage: 7) {
+					media(sort: POPULARITY_DESC, type: ANIME, isAdult: false) {
+						...media
+					}
+				}
+				top: Page(page: 1, perPage: 10) {
+					media(sort: SCORE_DESC, type: ANIME, isAdult: false) {
+						...media
+					}
+				}
+			}
+
+			fragment media on Media {
+				id
+				title {
+					userPreferred
+				}
+				coverImage {
+					extraLarge
+					large
+					color
+				}
+				startDate {
+					year
+					month
+					day
+				}
+				endDate {
+					year
+					month
+					day
+				}
+				bannerImage
+				season
+				seasonYear
+				description
+				type
+				format
+				status(version: 2)
+				episodes
+				duration
+				chapters
+				volumes
+				genres
+				isAdult
+				averageScore
+				popularity
+				mediaListEntry {
+					id
+					status
+				}
+				nextAiringEpisode {
+					airingAt
+					timeUntilAiring
+					episode
+				}
+				studios(isMain: true) {
+					edges {
+						isMain
+						node {
+							id
+							name
+						}
+					}
+				}
+			}
+		`
+	});
 </script>
 
 <svelte:head>
@@ -44,43 +164,70 @@
 
 <div>
 	<div class="m-3 md:m-5">
-		<div class="mb-5 flex justify-between">
+		<a href="/anime/trending" class="mb-5 flex justify-between items-center">
 			<div class="font-semibold">TRENDING ANIME</div>
-			<a href="/" class="text-sm">View More</a>
+			<a href="/anime/trending" class="text-sm">View More</a>
+		</a>
+		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
+			{#if $home.fetching}
+				loading...
+			{:else if $home.error}
+				<p>Oh no... {$home.error.message}</p>
+			{:else}
+				{#each $home.data.trendingAnime.media as media}
+					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+						<EntityPreview
+							thumbnail={media.coverImage.large}
+							title={media.title.userPreferred}
+							url="/"
+						/>
+					</div>
+				{/each}
+			{/if}
 		</div>
-		<div class="flex flex-wrap gap-3 md:gap-6">
-			<div>
-				<EntityPreview
-					thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg"
-					title="Kayuya Sama: Love Is War"
-					url="/"
-				>
-					<svelte:fragment slot="corner-tl">
-						<div class="bg-base-200 shadow-lg px-1 rounded text-sm">12 ep</div>
-					</svelte:fragment>
-				</EntityPreview>
-			</div>
-			<div>
-				<EntityPreview
-					thumbnail="https://i.pinimg.com/originals/f7/29/7c/f7297cd291e6a5165de1e2a5bf27ffcd.jpg"
-					title="Horimiya Peace"
-					url="/"
-				/>
-			</div>
-			<div>
-				<EntityPreview
-					thumbnail="https://i.pinimg.com/originals/3a/37/25/3a37254e501483afb205d77710faab00.jpg"
-					title="The Fragmented ALiS"
-					url="/"
-				/>
-			</div>
-			<div>
-				<EntityPreview
-					thumbnail="https://kiryuu.id/wp-content/uploads/2021/04/mijuku-na-futari-de-gozaimasu-852942-jQXgUU78.jpg"
-					title="Mijuku ma Futari de Gozaimasu ga"
-					url="/"
-				/>
-			</div>
+		<div class="h-10" />
+		<a href="/manga/trending" class="mb-5 flex justify-between items-center">
+			<div class="font-semibold">TRENDING MANGA</div>
+			<a href="/manga/trending" class="text-sm">View More</a>
+		</a>
+		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
+			{#if $home.fetching}
+				loading...
+			{:else if $home.error}
+				<p>Oh no... {$home.error.message}</p>
+			{:else}
+				{#each $home.data.trendingManga.media as media}
+					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+						<EntityPreview
+							thumbnail={media.coverImage.large}
+							title={media.title.userPreferred}
+							url="/"
+						/>
+					</div>
+				{/each}
+			{/if}
+		</div>
+		<div class="h-10" />
+		<a href="/manga/trending" class="mb-5 flex justify-between items-center">
+			<div class="font-semibold">POPULAR ANIME THIS SEASON</div>
+			<a href="/manga/trending" class="text-sm">View More</a>
+		</a>
+		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
+			{#if $home.fetching}
+				loading...
+			{:else if $home.error}
+				<p>Oh no... {$home.error.message}</p>
+			{:else}
+				{#each $home.data.seasonAnime.media as media}
+					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+						<EntityPreview
+							thumbnail={media.coverImage.large}
+							title={media.title.userPreferred}
+							url="/"
+						/>
+					</div>
+				{/each}
+			{/if}
 		</div>
 	</div>
 </div>
