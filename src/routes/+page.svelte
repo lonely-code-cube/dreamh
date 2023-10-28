@@ -149,8 +149,11 @@
 		content="Create forums for your favorite anime, hanime, manga & doujins.  Search through community maintained recomendation records, and so much more..."
 	/>
 	<meta property="og:image" content="/embed_img.png" />
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="600">
 
 	<!-- Twitter -->
+	<meta name="twitter:card" content="summary_large_image">
 	<meta
 		property="twitter:title"
 		content="DreamH Community - Quenching your thirst for Sauce | Stream, Read and Appreciate Anime, Hanime, Manga & Doujins"
