@@ -3,7 +3,6 @@
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import Mention from '$lib/components/ui/Mention.svelte';
 	import Tag from '$lib/components/ui/Tag.svelte';
-	import Medias from '$lib/components/ui/Medias.svelte';
 
 	let user = {
 		username: 'midnight',
@@ -99,7 +98,6 @@
 						<div class="flex-grow" />
 						<div>8 hours ago</div>
 					</div>
-					<div class="my-2"><Medias {medias} /></div>
 					<div class="border-t border-neutral mt-2 flex gap-2">
 						<a class="inline-flex items-center gap-1" href="/"
 							><Icon class="text-2xl" icon="material-symbols:comment" /> 12

@@ -9,6 +9,9 @@
 	import Icon from '@iconify/svelte';
 	import { formatDate, timeAgo } from '$lib/utils';
 	import Tabs from '$lib/components/ui/Tabs.svelte';
+	import Modal from '$lib/components/ui/Modal.svelte';
+	import TextInput from '$lib/components/ui/TextInput.svelte';
+	import slug from 'slug';
 
 	let user: Writable<{
 		isLoggedIn: boolean;
@@ -33,7 +36,6 @@
 			}
 		`
 	});
-	let pfpCrop: HTMLImageElement;
 	onMount(() => {
 		if (!$user.isLoggedIn) {
 			if (!$user.attemptedLogin) {
@@ -54,6 +56,9 @@
 	let bannerInput: HTMLInputElement;
 	let banner: FileList | null;
 	let settingBanner = false;
+	let createForumModalOpen = false;
+	let forumName: string | undefined;
+	let forumSlug: string | undefined;
 
 	$: if (banner) {
 		if (
@@ -127,6 +132,9 @@
 	let pfp: FileList | null;
 	let settingPfp = false;
 
+	$: if (forumName) {
+		forumSlug = slug(forumName);
+	}
 	$: if (pfp) {
 		if (
 			pfp[0].type === 'image/png' ||
@@ -232,10 +240,24 @@
 					>
 						<Icon class="text-2xl" icon="material-symbols:edit" />
 					</button>
-					<button class="absolute top-2 left-2 btn btn-sm bg-opacity-60"
+					<button
+						on:click={() => {
+							createForumModalOpen = true;
+						}}
+						class="absolute top-2 left-2 btn btn-sm bg-opacity-80"
 						>Create Forum <Icon class="text-xl text-primary" icon="mdi:forum-plus" /></button
 					>
-					<button class="absolute top-12 left-2 btn btn-sm bg-opacity-60"
+					<Modal bind:open={createForumModalOpen}>
+						<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5">
+							<h2 class="font-bold text-3xl">Create a Forum</h2>
+							<form class="flex flex-col gap-2 mt-5">
+								<TextInput bind:value={forumName} placeholder="Display Name" />
+								<TextInput bind:value={forumSlug} placeholder="URL identifier" />
+								<button class="btn btn-primary mt-5" type="submit">Create Forum</button>
+							</form>
+						</div>
+					</Modal>
+					<button class="absolute top-12 left-2 btn btn-sm bg-opacity-80"
 						>Accept Rewards <Icon class="text-xl text-warning" icon="solar:dollar-bold" /></button
 					>
 				{:else}
@@ -294,7 +316,9 @@
 						</button>
 						<div class="ml-24 md:ml-28 text-2xl font-bold flex items-center gap-2">
 							{$user.user?.displayName}
-							<Icon class="text-success" icon="mdi:moderator" />
+							{#if $user.user?.admin}
+								<Icon class="text-success" icon="mdi:moderator" />
+							{/if}
 						</div>
 						<div class="ml-24 md:ml-28">
 							@{$user.user?.username} <span class="text-base-content/60">ID: {$user.user?.id}</span>
@@ -303,7 +327,7 @@
 							<div class="mt-2 no-break">{$user.user?.bio}</div>
 						{/if}
 						{#if $user.user?.createdAt}
-							<div class="my-2 p-2 bg-neutral text-neutral-content rounded">
+							<div class="mt-3 p-2 bg-base-100 rounded">
 								Joined {timeAgo($user.user?.createdAt)} ({formatDate($user.user?.createdAt)})
 							</div>
 						{/if}
@@ -356,15 +380,16 @@
 				</div>
 				<div class="flex-grow min-h-[300px] bg-base-200 rounded">
 					<Tabs bind:tabIndex>
-						<div id="Activity">
-							<div class="flex flex-col h-full justify-center items-center">
+						<div data-title="Activity" data-icon="tabler:activity">
+							<div class="flex flex-col gap-2 h-full justify-center items-center">
 								<button class="btn btn-primary">Load Activity</button>
 								<div class="text-xm text-base-content/50">Doesnt support yet. Work in pogress.</div>
 							</div>
 						</div>
-						<div id="Assets" />
-						<div id="Settings" />
-						<div id="Edit Profile" />
+						<div data-title="Assets" data-icon="material-symbols:media-link-sharp" />
+						/>
+						<div data-title="Settings" data-icon="ion:settings" />
+						<div data-title="Edit Profile" data-icon="material-symbols:edit" />
 					</Tabs>
 				</div>
 			</div>

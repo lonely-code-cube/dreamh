@@ -8,7 +8,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
-	class="bg-base-200 rounded"
+	class="bg-base-200 rounded shadow-2xl shadow-base-300"
 	bind:this={dialog}
 	on:close={() => (open = false)}
 	on:click|self={() => dialog.close()}

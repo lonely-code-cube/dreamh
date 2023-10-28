@@ -42,7 +42,16 @@
 		},
 		exchanges: [cacheExchange, fetchExchange]
 	});
+	const anilistClient = new Client({
+		url: 'https://graphql.anilist.co',
+		fetchOptions: {
+			credentials: 'include'
+		},
+		exchanges: [cacheExchange, fetchExchange]
+	});
+
 	setContextClient(client);
+	setContext('anilist', anilistClient);
 
 	onMount(() => {
 		themeChange(false);

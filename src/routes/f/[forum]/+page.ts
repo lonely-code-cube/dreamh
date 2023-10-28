@@ -1,4 +1,4 @@
-import { PUBLIC_API_URL } from '$env/static/public'
+import { PUBLIC_RTWALK_URL } from '$env/static/public'
 import { error } from '@sveltejs/kit';
 import { cacheExchange, createClient, fetchExchange, getContextClient, gql, queryStore } from '@urql/svelte'
 
@@ -6,7 +6,7 @@ import { cacheExchange, createClient, fetchExchange, getContextClient, gql, quer
 export async function load({ params }) {
 
     const client = createClient({
-        url: PUBLIC_API_URL.concat("/gql"),
+        url: PUBLIC_RTWALK_URL.concat("/gql"),
         exchanges: [fetchExchange],
     });
 

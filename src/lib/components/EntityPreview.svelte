@@ -4,12 +4,12 @@
 	export let url: string;
 </script>
 
-<a class="relative hover:-translate-y-3 transition flex flex-col w-[150px] lg:w-[225px]" href={url}>
+<a class="relative transition flex flex-col w-[110px] md:w-[150px] lg:w-[200px]" href={url}>
 	<div
-		class="rounded p-5 bg-cover bg-none bg-top flex-grow h-[200px] lg:h-[300px] shadow-lg"
+		class="rounded p-5 bg-cover bg-none bg-top flex-grow h-[166px] md:h-[214px] lg:h-[286px] shadow-lg"
 		style="background-image: url({thumbnail});"
 	/>
-	<h3 class="line-clamp-2 md:text-lg">{title}</h3>
+	<h3 class="line-clamp-2 text-sm mt-2 font-semibold text-base-content/80">{title}</h3>
 	<div class="absolute left-2 top-2">
 		<slot name="corner-tl" />
 	</div>
