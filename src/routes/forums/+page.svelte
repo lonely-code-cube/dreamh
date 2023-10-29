@@ -30,10 +30,10 @@
 </script>
 
 <div class="p-5">
-	<div class="px-10 pb-10">
+	<div class="md:px-10 pb-10">
 		<TextInput placeholder="Search Forums">
 			<svelte:fragment slot="icon">
-				<Icon class="text-2xl" icon="fe:search" />
+				<Icon class="text-xl" icon="fe:search" />
 			</svelte:fragment>
 		</TextInput>
 	</div>
@@ -42,7 +42,7 @@
 			<div class="loading loading-lg" />
 		</div>
 	{:else if $forums.error}
-		<div class="h-64 flex items-end justify-center">
+		<div class="mt-52 text-center">
 			<div>
 				[<span class="font-bold text-error text-center">ERROR</span>] {$forums.error.message}
 			</div>

@@ -149,11 +149,11 @@
 		content="Create forums for your favorite anime, hanime, manga & doujins.  Search through community maintained recomendation records, and so much more..."
 	/>
 	<meta property="og:image" content="/embed_img.png" />
-	<meta property="og:image:width" content="1200">
-	<meta property="og:image:height" content="600">
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="600" />
 
 	<!-- Twitter -->
-	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta
 		property="twitter:title"
 		content="DreamH Community - Quenching your thirst for Sauce | Stream, Read and Appreciate Anime, Hanime, Manga & Doujins"
@@ -173,12 +173,20 @@
 		</a>
 		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
 			{#if $home.fetching}
-				loading...
+				{#each Array(7) as _}
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
+						<EntityPreview loading={true} thumbnail={''} title={''} url="/" />
+					</div>
+				{/each}
 			{:else if $home.error}
 				<p>Oh no... {$home.error.message}</p>
 			{:else}
 				{#each $home.data.trendingAnime.media as media}
-					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
@@ -190,17 +198,25 @@
 		</div>
 		<div class="h-10" />
 		<a href="/manga/trending" class="mb-5 flex justify-between items-center">
-			<div class="font-semibold">TRENDING MANGA</div>
+			<div class="font-semibold">POPULAR MANGA THIS SEASON</div>
 			<a href="/manga/trending" class="text-sm">View More</a>
 		</a>
 		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
 			{#if $home.fetching}
-				loading...
+				{#each Array(7) as _}
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
+						<EntityPreview loading={true} thumbnail={''} title={''} url="/" />
+					</div>
+				{/each}
 			{:else if $home.error}
 				<p>Oh no... {$home.error.message}</p>
 			{:else}
-				{#each $home.data.trendingManga.media as media}
-					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+				{#each $home.data.seasonManga.media as media}
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
@@ -217,12 +233,20 @@
 		</a>
 		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
 			{#if $home.fetching}
-				loading...
+				{#each Array(7) as _}
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
+						<EntityPreview loading={true} thumbnail={''} title={''} url="/" />
+					</div>
+				{/each}
 			{:else if $home.error}
 				<p>Oh no... {$home.error.message}</p>
 			{:else}
 				{#each $home.data.seasonAnime.media as media}
-					<div class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block">
+					<div
+						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
+					>
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
