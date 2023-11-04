@@ -5,7 +5,6 @@
 	import { writable, type Writable } from 'svelte/store';
 
 	import Icon from '@iconify/svelte';
-	import { themeChange } from 'theme-change';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import { page, navigating } from '$app/stores';
 	import { cdn } from '$lib/api';
@@ -14,15 +13,12 @@
 		setContextClient,
 		cacheExchange,
 		fetchExchange,
-		ssrExchange,
 		queryStore,
 		gql
 	} from '@urql/svelte';
-
-	import Modal from '$lib/components/ui/Modal.svelte';
-	import TextInput from '$lib/components/ui/TextInput.svelte';
-	import EntityPreview from '$lib/components/EntityPreview.svelte';
+	import { themes, modes, themeBtn } from '$lib/theming';
 	import type { User } from 'api';
+	import SearchModal from '$lib/components/SearchModal.svelte';
 
 	let user: Writable<{
 		isLoggedIn: boolean;
@@ -51,7 +47,7 @@
 	setContext('anilist', anilistClient);
 
 	onMount(() => {
-		themeChange(false);
+		themeBtn();
 		const identity = queryStore({
 			client,
 			query: gql`
@@ -123,63 +119,28 @@
 					</label>
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul tabindex="0" class="menu z-30 dropdown-content bg-base-200 w-56 rounded-box">
-						<li>
-							<button data-set-theme="dracula" data-act-class="active">
-								<Icon class="text-2xl" icon="akar-icons:moon-fill" />
-								Dracula
-							</button>
-						</li>
-						<li>
-							<button data-set-theme="cupcake" data-act-class="active">
-								<Icon class="text-2xl" icon="ph:sun-fill" />
-								Cupcake
-							</button>
-						</li>
-						<li>
-							<button data-set-theme="halloween" data-act-class="active">
-								<Icon class="text-2xl" icon="akar-icons:moon-fill" />
-								Halloween
-							</button>
-						</li>
-						<li>
-							<button data-set-theme="pastel" data-act-class="active">
-								<Icon class="text-2xl" icon="ph:sun-fill" />
-								Pastel
-							</button>
-						</li>
-						<li>
-							<button data-set-theme="night" data-act-class="active">
-								<Icon class="text-2xl" icon="akar-icons:moon-fill" />
-								Night
-							</button>
-						</li>
-						<li>
-							<button data-set-theme="valentine" data-act-class="active">
-								<Icon class="text-2xl" icon="solar:cat-bold" />
-								Valentine
-							</button>
-						</li>
+						{#each themes as theme}
+							<li>
+								<button
+									data-set-theme-mode={modes[theme]}
+									data-set-theme={theme}
+									data-act-class="active"
+								>
+									{#if modes[theme] === 'dark'}
+										<Icon class="text-2xl" icon="akar-icons:moon-fill" />
+									{:else}
+										<Icon class="text-2xl" icon="akar-icons:sun-fill" />
+									{/if}
+									{theme.charAt(0).toUpperCase() + theme.slice(1)}
+								</button>
+							</li>
+						{/each}
 					</ul>
 				</div>
 				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
 					<Icon class="text-2xl" icon="icon-park-outline:search" />
 				</button>
-				<Modal bind:open={searchOpen}>
-					<div class="w-[300px] md:w-[600px] min-h-[300px] max-h-[700px]">
-						<TextInput placeholder="Search">
-							<svelte:fragment slot="icon">
-								<Icon class="text-2xl" icon="fe:search" />
-							</svelte:fragment>
-						</TextInput>
-						<div class="my-3">
-							<EntityPreview
-								thumbnail="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974707799/kaguya-sama-love-is-war-vol-11-9781974707799_hr.jpg"
-								title="Kayuya Sama: Love Is War"
-								url="/"
-							/>
-						</div>
-					</div>
-				</Modal>
+				<SearchModal bind:searchOpen />
 				{#if $user.isLoggedIn}
 					<div class="btn btn-ghost btn-circle">
 						<a href="/@me" class="avatar">
@@ -319,7 +280,7 @@
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	:global(.error-toast) {
 		--toastWidth: auto;
 		--toastBackground: hsl(var(--b3));

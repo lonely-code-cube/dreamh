@@ -177,7 +177,7 @@
 					<div
 						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
 					>
-						<EntityPreview loading={true} thumbnail={''} title={''} url="/" />
+						<EntityPreview loading={true} thumbnail={''} title={''} url={'/'} />
 					</div>
 				{/each}
 			{:else if $home.error}
@@ -190,7 +190,7 @@
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
-							url="/"
+							url={`/anime/${media.id}`}
 						/>
 					</div>
 				{/each}
@@ -220,7 +220,7 @@
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
-							url="/"
+							url={`/manga/${media.id}`}
 						/>
 					</div>
 				{/each}
@@ -250,7 +250,7 @@
 						<EntityPreview
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
-							url="/"
+							url={`/anime/${media.id}`}
 						/>
 					</div>
 				{/each}

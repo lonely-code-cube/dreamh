@@ -9,6 +9,14 @@
 }
 
 .scrollbar-hide {
-    -ms-overflow-style: none; 
+    -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+[data-theme-mode='dark'] .dark-invert {
+    @apply invert;
+}
+
+[data-theme-mode='light'] .light-invert {
+    @apply invert;
 }

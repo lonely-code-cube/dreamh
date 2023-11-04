@@ -8,7 +8,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
-	class="bg-base-200 rounded shadow-2xl shadow-base-300"
+	class="bg-base-200 rounded-lg"
 	bind:this={dialog}
 	on:close={() => (open = false)}
 	on:click|self={() => dialog.close()}
@@ -23,6 +23,9 @@
 <style>
 	dialog {
 		max-height: 32em;
+	}
+	dialog::backdrop {
+		background: rgba(0, 0, 0, 0.8);
 	}
 	dialog > div {
 		@apply px-5 py-3;
