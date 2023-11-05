@@ -33,7 +33,6 @@ export async function load({ url, fetch }) {
                 return {
                     m3u8: false,
                     json: true,
-                    src,
                     config,
                 }
             } else {

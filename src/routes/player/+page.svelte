@@ -2,7 +2,7 @@
 	export let data: {
 		m3u8: boolean;
 		json: boolean;
-		src: string | null;
+		src: string | undefined;
 		config:
 			| {
 					title: string;
@@ -128,7 +128,7 @@
 						bind:this={player}
 						class="bg-base-200"
 						poster={data.config.playlist[data.config.current_series]?.thumbnail}
-						src={data.src}
+						src={data.config.playlist[data.config.current_video].src}
 						title={data.config.playlist[data.config.current_series]?.title}
 						load="eager"
 						aspect-ratio="16/9"
@@ -178,7 +178,6 @@
 							<btn
 								on:click={() => {
 									if (data.config) {
-										data.src = item.src;
 										data.config.title = item.title;
 										data.config.current_video = i;
 									}
@@ -222,7 +221,7 @@
 					<div class="form-control w-fit">
 						<label class="label cursor-pointer">
 							<span class="label-text mr-2">Json Config</span>
-							<input type="checkbox" bind:checked={isJson} class="checkbox checkbox-secondary" />
+							<input type="checkbox" bind:checked={isJson} class="checkbox checkbox-primary" />
 						</label>
 					</div>
 				</div>
@@ -247,7 +246,7 @@
 				<div class="form-control w-fit">
 					<label class="label cursor-pointer">
 						<span class="label-text mr-2">Json Config</span>
-						<input type="checkbox" bind:checked={isJson} class="checkbox checkbox-secondary" />
+						<input type="checkbox" bind:checked={isJson} class="checkbox checkbox-primary" />
 					</label>
 				</div>
 			</div>
