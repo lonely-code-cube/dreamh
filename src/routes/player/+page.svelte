@@ -7,7 +7,7 @@
 			| {
 					title: string;
 					current_video: number;
-					current_series: number;
+					current_series: number | undefined;
 					thumbnail: string | undefined;
 					width: string | undefined;
 					height: string | undefined;
@@ -46,7 +46,7 @@
 	function verify_config(config: {
 		title: string;
 		current_video: number;
-		current_series: number;
+		current_series: number | undefined;
 		playlist: {
 			src: string;
 			title: string | undefined;
@@ -113,6 +113,7 @@
 			bind:this={player}
 			class="bg-base-200"
 			src={data.src}
+			type="video/hls"
 			load="eager"
 			aspect-ratio="16/9"
 			crossorigin
@@ -122,14 +123,14 @@
 		</media-player>
 	{:else if data.json}
 		{#if data.config && verify_config(data.config)}
-			<div class="flex flex-col lg:flex-row gap-3">
+			<div class="flex flex-col lg:flex-row">
 				<div class="lg:basis-2/3 h-min">
 					<media-player
 						bind:this={player}
 						class="bg-base-200"
-						poster={data.config.playlist[data.config.current_series]?.thumbnail}
+						poster={data.config.playlist[data.config.current_video]?.thumbnail}
 						src={data.config.playlist[data.config.current_video].src}
-						title={data.config.playlist[data.config.current_series]?.title}
+						title={data.config.playlist[data.config.current_video]?.title}
 						load="eager"
 						aspect-ratio="16/9"
 						crossorigin
@@ -170,7 +171,7 @@
 				</div>
 				{#if data.config.playlist}
 					<div
-						class="lg:basis-1/3 bg-base-200 lg:flex-grow max-h-[700px] overflow-y-scroll p-5 flex flex-col gap-2 rounded"
+						class="lg:basis-1/3 bg-base-200 lg:flex-grow max-h-[700px] overflow-y-scroll p-2 flex flex-col gap-2 rounded"
 					>
 						{#each data.config.playlist as item, i}
 							<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -182,7 +183,7 @@
 										data.config.current_video = i;
 									}
 								}}
-								class="even:bg-base-100 rounded cursor-pointer bg-base-300 pl-2 pr-5 py-2 flex gap-2 items-center transition hover:bg-primary-focus hover:text-primary-content"
+								class="even:bg-base-100 rounded cursor-pointer bg-base-300 pl-2 pr-5 py-2 flex gap-2 items-center transition hover:bg-primary-focus hover:text-primary-content text-sm md:text-base"
 								class:current={i == data.config.current_video}
 							>
 								<div class="px-2 font-bold">
@@ -192,7 +193,6 @@
 									<img class="h-12" src={item.thumbnail} alt="" />
 								{/if}
 								{item.title}
-								<Icon class="text-xl" icon="icon-park-solid:play" />
 								<div class="flex-grow" />
 								<button class="btn btn-circle rounded-full"
 									><Icon class="text-xl" icon="ph:download-duotone" /></button

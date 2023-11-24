@@ -10,14 +10,7 @@ export default {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: ["night", "lemonade", "halloween", "garden"],
+    themes: ["sunset", "lemonade", "halloween", "garden"],
   },
-  keyframes: {
-    shimmer: {
-      "100%": {
-        "transform": "translateX(100%)",
-      },
-    },
-  }
 }
 

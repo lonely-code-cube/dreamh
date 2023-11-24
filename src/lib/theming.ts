@@ -1,6 +1,6 @@
-export let themes = ["night", "lemonade", "halloween", "garden"];
+export let themes = ["halloween", "lemonade", "sunset", "garden"];
 export let modes: { [index: string]: string } = {
-    night: "dark",
+    sunset: "dark",
     halloween: "dark",
     lemonade: "light",
     garden: "light",
