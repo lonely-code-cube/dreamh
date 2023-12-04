@@ -256,11 +256,11 @@
 
 <style lang="postcss">
 	.current {
-		background-color: hsl(var(--p) / var(--tw-bg-opacity)) !important;
+		background-color: oklch(var(--p) / var(--tw-bg-opacity)) !important;
 		@apply text-primary-content;
 	}
 	.current:hover {
-		background-color: hsl(var(--pf) / var(--tw-bg-opacity)) !important;
+		background-color: oklch(var(--pf) / var(--tw-bg-opacity)) !important;
 		@apply text-primary-content;
 	}
 </style>

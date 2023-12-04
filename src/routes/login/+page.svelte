@@ -1,11 +1,12 @@
 <script lang="ts">
 	import PasswordInput from '$lib/components/ui/PasswordInput.svelte';
 	import EmailInput from '$lib/components/ui/EmailInput.svelte';
-	import { mutationStore, gql, getContextClient, Client } from '@urql/svelte';
-	import { getContext, onMount } from 'svelte';
+	import { mutationStore, gql, getContextClient } from '@urql/svelte';
+	import { getContext } from 'svelte';
 	import { goto } from '$app/navigation';
 	import type { Writable } from 'svelte/store';
 	import type { User } from 'api';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	let disabled = true;
 
@@ -62,16 +63,16 @@
 			if (res.fetching) {
 				loading = true;
 			} else if (res.error) {
-				username_error = res.error.message;
+				toast.push(res.error.message, { classes: ['error-toast'] });
 				loading = false;
 			} else if (res.data) {
 				user.set({
 					isLoggedIn: true,
 					user: res.data.login
 				});
-				goto('/');
+				goto('/@me');
 			} else {
-				username_error = 'Some unknown error has occured';
+				toast.push('Some unknown error has occured', { classes: ['error-toast'] });
 				loading = false;
 			}
 		});

@@ -258,12 +258,32 @@
 						</div>
 					</Modal>
 					<button class="absolute top-12 left-2 btn btn-sm bg-opacity-80"
-						>Accept Rewards <Icon class="text-xl text-warning" icon="solar:dollar-bold" /></button
+						>Accept Donations <Icon class="text-xl text-warning" icon="solar:dollar-bold" /></button
 					>
 				{:else}
 					<div
 						class="h-52 bg-center bg-cover bg-no-repeat bg-base-200 flex justify-center items-center"
 					>
+						<button
+							on:click={() => {
+								createForumModalOpen = true;
+							}}
+							class="absolute top-2 left-2 btn btn-sm bg-neutral text-neutral-content"
+							>Create Forum <Icon class="text-xl text-primary" icon="mdi:forum-plus" /></button
+						>
+						<Modal bind:open={createForumModalOpen}>
+							<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5">
+								<h2 class="font-bold text-3xl">Create a Forum</h2>
+								<form class="flex flex-col gap-2 mt-5">
+									<TextInput bind:value={forumName} placeholder="Display Name" />
+									<TextInput bind:value={forumSlug} placeholder="URL identifier" />
+									<button class="btn btn-primary mt-5" type="submit">Create Forum</button>
+								</form>
+							</div>
+						</Modal>
+						<button class="absolute top-12 left-2 btn btn-sm bg-neutral text-neutral-content"
+							>Accept Rewards <Icon class="text-xl text-warning" icon="solar:dollar-bold" /></button
+						>
 						{#if !settingBanner}
 							<button
 								on:click={() => {
@@ -387,9 +407,55 @@
 							</div>
 						</div>
 						<div data-title="Assets" data-icon="material-symbols:media-link-sharp" />
-						/>
 						<div data-title="Settings" data-icon="ion:settings" />
-						<div data-title="Edit Profile" data-icon="material-symbols:edit" />
+						<div data-title="Edit Profile" data-icon="material-symbols:edit">
+							<div class="mx-3">
+								<div>
+									{#if $user.user?.pfp?.absolutePath}
+										<div
+											class="mt-5 mx-auto w-32 h-32 rounded-full bg-base-200 shadow-lg flex items-center justify-center border border-primary bg-contain"
+											style="background-image: url('{cdn($user.user.pfp.absolutePath)}');"
+										>
+											{#if settingPfp}
+												<div class="loading-lg" />
+											{:else}
+												<button
+													on:click={() => {
+														pfpInput.click();
+													}}
+													class="btn btn-circle w-full h-full opacity-80"
+												>
+													<Icon class="text-3xl" icon="material-symbols:edit" />
+												</button>
+											{/if}
+										</div>
+									{:else}
+										<div
+											class="mt-5 mx-auto w-24 h-24 rounded-full bg-base-200 shadow-lg flex items-center justify-center border border-primary"
+										>
+											{#if settingPfp}
+												<div class="loading-lg" />
+											{:else}
+												<button
+													on:click={() => {
+														pfpInput.click();
+													}}
+													class="btn btn-circle"
+												>
+													<Icon class="text-3xl" icon="material-symbols:edit" />
+												</button>
+											{/if}
+										</div>
+									{/if}
+								</div>
+								<div class="mt-3 bg-base-100 rounded p-2">
+									<TextInput placeholder="Change Nickname" />
+								</div>
+								<div class="mt-3 bg-base-100 rounded p-2">
+									<TextInput placeholder="Change Username" />
+								</div>
+							</div>
+						</div>
 					</Tabs>
 				</div>
 			</div>

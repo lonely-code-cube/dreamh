@@ -8,7 +8,7 @@ export default {
       'inter': ['Inter', ...defaultTheme.fontFamily.sans],
     }
   },
-  plugins: [require("daisyui")],
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     themes: ["sunset", "lemonade", "halloween", "garden"],
   },

@@ -8,7 +8,7 @@
 </script>
 
 <Modal bind:open={searchOpen}>
-	<div class="w-[300px] md:w-[500px] min-h-[500px] max-h-[700px]">
+	<div class="w-[300px] md:w-[500px] min-h-[450px] mmd:min-h-[500px] max-h-[700px]">
 		<TextInput placeholder="Search">
 			<svelte:fragment slot="icon">
 				<Icon class="text-xl mb-1" icon="fe:search" />

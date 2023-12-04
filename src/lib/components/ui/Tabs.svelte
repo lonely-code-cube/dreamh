@@ -18,14 +18,14 @@
 </div>
 
 {#if content}
-	<div class="tabs flex">
+	<div class="tabs tabs-bordered flex">
 		{#each content.querySelectorAll(':scope > div') as tab, i}
 			<button
 				on:click={() => {
 					tabIndex = i;
 				}}
 				class:tab-active={i === tabIndex}
-				class="tab tab-bordered flex-grow gap-2 flex items-center"
+				class="tab flex-grow gap-2 flex items-center"
 				>{tab.getAttribute('data-title')}
 				{#if tab.getAttribute('data-icon')}
 					<Icon icon={tab.getAttribute('data-icon')} />

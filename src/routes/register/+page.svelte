@@ -2,6 +2,12 @@
 	import TextInput from '$lib/components/ui/TextInput.svelte';
 	import PasswordInput from '$lib/components/ui/PasswordInput.svelte';
 	import EmailInput from '$lib/components/ui/EmailInput.svelte';
+	import { mutationStore, gql, getContextClient } from '@urql/svelte';
+	import { getContext } from 'svelte';
+	import { goto } from '$app/navigation';
+	import type { Writable } from 'svelte/store';
+	import type { User } from 'api';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	let disabled = true;
 	let checking_username = false;
@@ -14,11 +20,19 @@
 	let username_error: string | null = null;
 	let password_error: string | null = null;
 
+	let result;
+	let loading = false;
+	let client = getContextClient();
+	let user: Writable<{
+		isLoggedIn: boolean;
+		user: User | null;
+	}> = getContext('user');
+
 	function onUpdate() {
 		if (email && username && password) {
 			disabled = false;
 		} else {
-			disabled = true;
+			disabled = false; // TODO: SHould  be true
 		}
 		if (email?.trim().length === 0) {
 			email_error = 'This stuff is required';
@@ -29,6 +43,51 @@
 		}
 	}
 	function onUsernameUpdate() {}
+
+	function register() {
+		result = mutationStore({
+			client: client,
+			query: gql`
+				mutation ($username: String!, $password: String!) {
+					createUser(username: $username, password: $password) {
+						id
+					}
+					login(username: $username, password: $password) {
+						id
+						username
+						displayName
+						bio
+						pfp {
+							absolutePath
+						}
+						banner {
+							absolutePath
+						}
+						createdAt
+						admin
+					}
+				}
+			`,
+			variables: { username, password }
+		});
+		result.subscribe((res) => {
+			if (res.fetching) {
+				loading = true;
+			} else if (res.error) {
+				toast.push(res.error.message, { classes: ['error-toast'] });
+				loading = false;
+			} else if (res.data) {
+				user.set({
+					isLoggedIn: true,
+					user: res.data.login
+				});
+				goto('/@me');
+			} else {
+				toast.push('Some unknown error has occured', { classes: ['error-toast'] });
+				loading = false;
+			}
+		});
+	}
 
 	$: email, username, password, onUpdate();
 	$: username, onUsernameUpdate();
@@ -51,7 +110,9 @@
 				</svelte:fragment>
 			</TextInput>
 			<PasswordInput bind:error={password_error} bind:value={password} placeholder="Password" />
-			<button {disabled} class="btn btn-primary mt-5" type="submit">Create Account</button>
+			<button on:click={register} {disabled} class="btn btn-primary mt-5" type="submit"
+				>Create Account</button
+			>
 		</form>
 		<div class="mt-2 mb-5">
 			Or just <a class="link link-primary" href="/login">login</a>
