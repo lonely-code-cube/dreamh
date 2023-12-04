@@ -109,14 +109,14 @@
 		>
 			<Icon class="text-2xl" icon="ic:round-menu" />
 		</label>
-		<nav class="z-30 sticky top-0 navbar bg-opacity-50 backdrop-blur-md min-h-0 h-14">
+		<nav class="z-30 sticky top-0 navbar bg-opacity-50 backdrop-blur-md min-h-0 h-14 shadow-lg">
 			<div class="navbar-start" />
 			<div class="navbar-end">
 				<div class="dropdown dropdown-left dropdown-bottom">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->
-					<label tabindex="0" class="btn btn-ghost btn-sm md:btn-md btn-circle">
-						<Icon class="text-xl" icon="mdi:theme-light-dark" />
+					<label tabindex="0" class="btn btn-ghost btn-circle">
+						<Icon class="text-2xl" icon="mdi:theme-light-dark" />
 					</label>
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul tabindex="0" class="menu z-30 dropdown-content bg-base-200 w-56 rounded-box">
@@ -138,8 +138,8 @@
 						{/each}
 					</ul>
 				</div>
-				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-sm md:btn-md btn-circle">
-					<Icon class="text-xl" icon="icon-park-outline:search" />
+				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
+					<Icon class="text-2xl" icon="icon-park-outline:search" />
 				</button>
 				<SearchModal bind:searchOpen />
 				{#if $user.isLoggedIn}
@@ -159,8 +159,8 @@
 						</a>
 					</div>
 				{:else}
-					<a href="/@me" class="btn btn-ghost btn-sm md:btn-md btn-circle">
-						<Icon class="text-xl" icon="material-symbols:person" />
+					<a href="/@me" class="btn btn-ghost btn-circle">
+						<Icon class="text-2xl" icon="material-symbols:person" />
 					</a>
 				{/if}
 			</div>
