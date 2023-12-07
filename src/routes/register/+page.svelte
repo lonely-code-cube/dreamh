@@ -67,7 +67,7 @@
 <div class="flex justify-center items-center h-[600px] md:h-[800px]">
 	<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5 shadow-lg shadow-base-300 mx-5">
 		<h2 class="font-bold text-3xl">Register</h2>
-		<form class="flex flex-col gap-2 mt-5">
+		<form class="flex flex-col mt-5">
 			<EmailInput bind:error={email_error} bind:value={email} placeholder="Email" />
 			<TextInput bind:error={username_error} bind:value={username} placeholder="Username" />
 			<PasswordInput bind:error={password_error} bind:value={password} placeholder="Password" />

@@ -6,24 +6,23 @@
 	import { goto } from '$app/navigation';
 	import type { Writable } from 'svelte/store';
 	import type { User } from 'api';
-	import { toast } from '@zerodevx/svelte-toast';
 
 	let disabled = true;
 
-	let username: string | null;
+	let email: string | null;
 	let password: string | null;
 
-	let username_error: string | null = null;
+	let email_error: string | null = null;
 	let password_error: string | null = null;
 
 	function onUpdate() {
-		if (username && password) {
+		if (email && password) {
 			disabled = false;
 		} else {
 			disabled = true;
 		}
-		if (username?.trim().length === 0) {
-			username_error = 'This stuff is required';
+		if (email?.trim().length === 0) {
+			email_error = 'This stuff is required';
 		} else if (password?.trim().length === 0) {
 			password_error = 'This stuff is required';
 		}
@@ -40,8 +39,8 @@
 		result = mutationStore({
 			client: client,
 			query: gql`
-				mutation ($username: String!, $password: String!) {
-					login(username: $username, password: $password) {
+				mutation ($email: String!, $password: String!) {
+					login(email: $email, password: $password) {
 						id
 						username
 						displayName
@@ -57,13 +56,12 @@
 					}
 				}
 			`,
-			variables: { username: username, password }
+			variables: { email, password }
 		});
 		result.subscribe((res) => {
 			if (res.fetching) {
 				loading = true;
 			} else if (res.error) {
-				toast.push(res.error.message, { classes: ['error-toast'] });
 				loading = false;
 			} else if (res.data) {
 				user.set({
@@ -71,14 +69,11 @@
 					user: res.data.login
 				});
 				goto('/@me');
-			} else {
-				toast.push('Some unknown error has occured', { classes: ['error-toast'] });
-				loading = false;
 			}
 		});
 	}
 
-	$: username, password, onUpdate();
+	$: email, password, onUpdate();
 </script>
 
 <svelte:head>
@@ -88,8 +83,8 @@
 <div class="flex justify-center items-center h-[600px]">
 	<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5 shadow-lg shadow-base-300 mx-5">
 		<h2 class="font-bold text-3xl">Login</h2>
-		<form class="flex flex-col gap-2 mt-5">
-			<EmailInput bind:error={username_error} bind:value={username} placeholder="Username" />
+		<form class="flex flex-col mt-5">
+			<EmailInput bind:error={email_error} bind:value={email} placeholder="Email" />
 			<PasswordInput
 				bind:error={password_error}
 				bind:value={password}

@@ -23,19 +23,6 @@
 
 	let loading = false;
 	let meRes: any;
-	meRes = queryStore({
-		client,
-		query: gql`
-			query {
-				me {
-					ownedForumCount
-					postCount
-					commentCount
-					stars
-				}
-			}
-		`
-	});
 	onMount(() => {
 		if (!$user.isLoggedIn) {
 			if (!$user.attemptedLogin) {
@@ -45,6 +32,23 @@
 						goto('/login');
 					} else if (u.attemptedLogin) {
 						loading = false;
+						meRes = queryStore({
+							client,
+							query: gql`
+								query ($id: String!) {
+									getForums(ownerId: $id) {
+										total
+									}
+									getPosts(posterId: $id) {
+										total
+									}
+									getComments(commenterId: $id) {
+										total
+									}
+								}
+							`,
+							variables: { id: $user.user?.id }
+						});
 					}
 				});
 			} else {
@@ -341,7 +345,8 @@
 							{/if}
 						</div>
 						<div class="ml-24 md:ml-28">
-							@{$user.user?.username} <span class="text-base-content/60">ID: {$user.user?.id}</span>
+							<div>@{$user.user?.username}</div>
+							<div class="text-base-content/60">ID: {$user.user?.id}</div>
 						</div>
 						{#if $user.user?.bio}
 							<div class="mt-2 no-break">{$user.user?.bio}</div>
@@ -355,7 +360,7 @@
 					<div
 						class="relative z-0 w-full md:w-[400px] lg:w-[600px] bg-base-200 rounded mt-3 pb-5 p-3"
 					>
-						{#if $meRes.fetching}
+						{#if meRes === undefined || $meRes.fetching}
 							<div class="h-28 flex justify-center items-center">
 								<div class="loading" />
 							</div>
@@ -368,23 +373,23 @@
 										<Icon class="text-5xl" icon="iconoir:post" />
 									</div>
 									<div class="stat-title">Posts</div>
-									<div class="stat-value">{$meRes.data.me.postCount}</div>
+									<div class="stat-value">{$meRes.data.getPosts.total}</div>
 									<div class="stat-desc">Check activity for recent posts</div>
 								</div>
-								<div class="stat">
+								<!-- <div class="stat">
 									<div class="stat-figure text-warning">
 										<Icon class="text-6xl" icon="solar:stars-bold-duotone" />
 									</div>
 									<div class="stat-title">Stars Received</div>
 									<div class="stat-value">{$meRes.data.me.stars || 0}</div>
 									<div class="stat-desc">Rank #0</div>
-								</div>
+								</div> -->
 								<div class="stat">
 									<div class="stat-figure text-primary">
 										<Icon class="text-5xl" icon="material-symbols:forum" />
 									</div>
 									<div class="stat-title">Comments</div>
-									<div class="stat-value">{$meRes.data.me.commentCount}</div>
+									<div class="stat-value">{$meRes.data.getComments.total}</div>
 									<div class="stat-desc">Check activity for recent comments</div>
 								</div>
 								<div class="stat">
@@ -392,7 +397,7 @@
 										<Icon class="text-5xl" icon="mdi:crown" />
 									</div>
 									<div class="stat-title">Owned Forums</div>
-									<div class="stat-value">{$meRes.data.me.ownedForumCount}</div>
+									<div class="stat-value">{$meRes.data.getForums.total}</div>
 								</div>
 							</div>
 						{/if}
@@ -448,12 +453,8 @@
 										</div>
 									{/if}
 								</div>
-								<div class="mt-3 bg-base-100 rounded p-2">
-									<TextInput placeholder="Change Nickname" />
-								</div>
-								<div class="mt-3 bg-base-100 rounded p-2">
-									<TextInput placeholder="Change Username" />
-								</div>
+								<TextInput placeholder="Change Nickname" />
+								<TextInput placeholder="Change Username" />
 							</div>
 						</div>
 					</Tabs>

@@ -10,7 +10,7 @@
 </script>
 
 <div>
-	<div class="relative">
+	<div class="relative mt-2">
 		<input
 			on:input={onInput}
 			class:error

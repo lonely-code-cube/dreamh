@@ -26,13 +26,13 @@
 </script>
 
 <div>
-	<div class="relative">
+	<div class="relative mt-2">
 		<input
 			on:input={onInput}
 			class:error
 			class="peer h-full w-full border-b border-base-content/50 bg-transparent pt-4 outline outline-0 transition-all placeholder-shown:border-base-content/50 focus:border-primary focus:outline-0 disabled:border-0"
 			placeholder=" "
-			type="text"
+			type="password"
 		/>
 		<!-- svelte-ignore a11y-label-has-associated-control -->
 		<label
