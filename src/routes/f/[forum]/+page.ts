@@ -18,10 +18,10 @@ export async function load({ params }) {
                     name
                     displayName
                     icon {
-                        absolutePath
+                        loc
                     }
                     banner {
-                        absolutePath
+                        loc
                     }
                     description
                     createdAt
@@ -43,7 +43,7 @@ export async function load({ params }) {
                     content
                     media {
                         files {
-                            absolutePath
+                            loc
                         }
                     }
                     createdAt

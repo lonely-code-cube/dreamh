@@ -23,7 +23,7 @@
 	{#if post.media}
 		<figure>
 			<a href="/">
-				<img width="768" src="http://localhost:8000{post.media[0].absolutePath}" alt="Shoes" />
+				<img width="768" src="http://localhost:8000{post.media[0].loc}" alt="Shoes" />
 			</a>
 		</figure>
 	{/if}

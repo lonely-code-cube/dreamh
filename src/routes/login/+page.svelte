@@ -47,10 +47,10 @@
 						displayName
 						bio
 						pfp {
-							absolutePath
+							loc
 						}
 						banner {
-							absolutePath
+							loc
 						}
 						createdAt
 						admin

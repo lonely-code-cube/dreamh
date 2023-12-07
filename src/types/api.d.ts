@@ -1,7 +1,7 @@
 declare module "api" {
     export type File = {
         id: string | null | undefined,
-        absolutePath: string | null | undefined,
+        loc: string | null | undefined,
     }
 
     export type User = {

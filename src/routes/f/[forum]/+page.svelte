@@ -39,18 +39,18 @@
 
 <div>
 	<div>
-		{#if data.forum.forum?.banner?.absolutePath}
+		{#if data.forum.forum?.banner?.loc}
 			<div class="relative">
 				<div
 					class="h-52 bg-center bg-cover bg-no-repeat"
-					style="background-image: url('{data.forum.forum?.banner?.absolutePath}');"
+					style="background-image: url('{data.forum.forum?.banner?.loc}');"
 				/>
-				{#if data.forum.forum.icon?.absolutePath}
+				{#if data.forum.forum.icon?.loc}
 					<div class="absolute -bottom-20 left-5 md:left-10 avatar">
 						<div
 							class="w-24 rounded-full ring-8 ring-base-100 bg-base-100 ring-offset-base-content ring-offset-2"
 						>
-							<img alt="Forum Icon" src={data.forum.forum.icon.absolutePath} />
+							<img alt="Forum Icon" src={data.forum.forum.icon.loc} />
 						</div>
 					</div>
 				{:else}
@@ -68,12 +68,12 @@
 				<div
 					class="h-52 bg-center bg-cover bg-no-repeat bg-gradient-to-tr from-primary to-secondary"
 				/>
-				{#if data.forum.forum?.icon?.absolutePath}
+				{#if data.forum.forum?.icon?.loc}
 					<div class="absolute -bottom-20 left-5 md:left-10 avatar">
 						<div
 							class="w-24 rounded-full ring-8 ring-base-100 bg-base-100 ring-offset-base-content ring-offset-2"
 						>
-							<img alt="Forum Icon" src={data.forum.forum.icon.absolutePath} />
+							<img alt="Forum Icon" src={data.forum.forum.icon.loc} />
 						</div>
 					</div>
 				{:else}

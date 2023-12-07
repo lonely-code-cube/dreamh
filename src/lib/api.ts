@@ -2,8 +2,8 @@ import { PUBLIC_RTWALK_URL } from "$env/static/public";
 import type { Client, OperationResult } from "@urql/svelte";
 import type { Post } from "api";
 
-export function cdn(absolutePath: string) {
-    return PUBLIC_RTWALK_URL.concat(absolutePath);
+export function cdn(loc: string) {
+    return PUBLIC_RTWALK_URL.concat("/cdn/" + loc);
 }
 
 export async function createPost(client: Client, forum: number, title: string, tags: string[] | null = null, content: string | null = null, media: string[] | null = null) {
@@ -18,7 +18,7 @@ export async function createPost(client: Client, forum: number, title: string, t
             content
             media {
                 files {
-                    absolutePath
+                    loc
                 }
             }
             createdAt

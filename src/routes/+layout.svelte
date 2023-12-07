@@ -5,7 +5,7 @@
 	import { writable, type Writable } from 'svelte/store';
 
 	import Icon from '@iconify/svelte';
-	import { SvelteToast } from '@zerodevx/svelte-toast';
+	import { SvelteToast, toast } from '@zerodevx/svelte-toast';
 	import { page, navigating } from '$app/stores';
 	import { cdn } from '$lib/api';
 	import {
@@ -13,6 +13,7 @@
 		setContextClient,
 		cacheExchange,
 		fetchExchange,
+		errorExchange,
 		queryStore,
 		gql
 	} from '@urql/svelte';
@@ -32,12 +33,31 @@
 	});
 	setContext('user', user);
 
+	function toastError(msg: string) {
+		toast.push(msg, { classes: ['error-toast'] });
+	}
+
 	const client = new Client({
-		url: PUBLIC_RTWALK_URL + '/gql',
+		url: PUBLIC_RTWALK_URL + '/api/v1',
 		fetchOptions: {
 			credentials: 'include'
 		},
-		exchanges: [cacheExchange, fetchExchange]
+		exchanges: [
+			cacheExchange,
+			errorExchange({
+				onError(error) {
+					error.graphQLErrors.forEach((e) => {
+						switch (e.extensions.tp) {
+							case 'UNAUTHENTICATED_REQUEST':
+								break;
+							default:
+								toastError(e.message);
+						}
+					});
+				}
+			}),
+			fetchExchange
+		]
 	});
 	const anilistClient = new Client({
 		url: 'https://graphql.anilist.co',
@@ -54,20 +74,18 @@
 			query: gql`
 				query {
 					me {
-						user {
-							id
-							username
-							displayName
-							bio
-							pfp {
-								absolutePath
-							}
-							banner {
-								absolutePath
-							}
-							createdAt
-							admin
+						id
+						username
+						displayName
+						bio
+						pfp {
+							loc
 						}
+						banner {
+							loc
+						}
+						createdAt
+						admin
 					}
 				}
 			`
@@ -78,7 +96,7 @@
 				user.set({
 					isLoggedIn: true,
 					attemptedLogin: true,
-					user: res.data.me.user
+					user: res.data.me
 				});
 			} else if (res.error) {
 				user.set({
@@ -146,8 +164,8 @@
 					<div class="btn btn-ghost btn-circle">
 						<a href="/@me" class="avatar">
 							<div class="w-10 rounded-full">
-								{#if $user.user?.pfp?.absolutePath}
-									<img src={cdn($user.user?.pfp?.absolutePath)} alt="user pfp" />
+								{#if $user.user?.pfp?.loc}
+									<img src={cdn($user.user?.pfp?.loc)} alt="user pfp" />
 								{:else}
 									<img
 										class="light-invert"

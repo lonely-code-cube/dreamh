@@ -91,7 +91,7 @@
 							mutation ($bannerId: String!) {
 								updateUserBasic(changes: { banner: $bannerId }) {
 									banner {
-										absolutePath
+										loc
 									}
 								}
 							}
@@ -103,11 +103,11 @@
 							toast.push(res2.error.message, { classes: ['error-toast'] });
 							settingBanner = false;
 						} else if (res2.data) {
-							const bannerAbsolutePath = res2.data.updateUserBasic.banner.absolutePath;
+							const bannerloc = res2.data.updateUserBasic.banner.loc;
 							user.update(({ isLoggedIn, attemptedLogin, user }) => {
 								if (user) {
 									user.banner = {
-										absolutePath: bannerAbsolutePath,
+										loc: bannerloc,
 										id: undefined
 									};
 								}
@@ -166,7 +166,7 @@
 							mutation ($pfpId: String!) {
 								updateUserBasic(changes: { pfp: $pfpId }) {
 									pfp {
-										absolutePath
+										loc
 									}
 								}
 							}
@@ -178,11 +178,11 @@
 							toast.push(res2.error.message, { classes: ['error-toast'] });
 							settingPfp = false;
 						} else if (res2.data) {
-							const pfpAbsolutePath = res2.data.updateUserBasic.pfp.absolutePath;
+							const pfploc = res2.data.updateUserBasic.pfp.loc;
 							user.update(({ isLoggedIn, attemptedLogin, user }) => {
 								if (user) {
 									user.pfp = {
-										absolutePath: pfpAbsolutePath,
+										loc: pfploc,
 										id: undefined
 									};
 								}
@@ -227,10 +227,10 @@
 					class="hidden"
 					type="file"
 				/>
-				{#if $user.user?.banner?.absolutePath}
+				{#if $user.user?.banner?.loc}
 					<div
 						class="h-52 bg-center bg-cover bg-no-repeat"
-						style="background-image: url('{cdn($user.user?.banner?.absolutePath)}');"
+						style="background-image: url('{cdn($user.user?.banner?.loc)}');"
 					/>
 					<button
 						on:click={() => {
@@ -296,10 +296,10 @@
 						{/if}
 					</div>
 				{/if}
-				{#if $user.user?.pfp?.absolutePath}
+				{#if $user.user?.pfp?.loc}
 					<div class="absolute z-10 -bottom-20 left-5 md:left-10 avatar">
 						<div class="w-24 rounded-full bg-base-100">
-							<img alt="User pfp" src={cdn($user.user?.pfp?.absolutePath)} />
+							<img alt="User pfp" src={cdn($user.user?.pfp?.loc)} />
 						</div>
 					</div>
 				{:else}
@@ -411,10 +411,10 @@
 						<div data-title="Edit Profile" data-icon="material-symbols:edit">
 							<div class="mx-3">
 								<div>
-									{#if $user.user?.pfp?.absolutePath}
+									{#if $user.user?.pfp?.loc}
 										<div
 											class="mt-5 mx-auto w-32 h-32 rounded-full bg-base-200 shadow-lg flex items-center justify-center border border-primary bg-contain"
-											style="background-image: url('{cdn($user.user.pfp.absolutePath)}');"
+											style="background-image: url('{cdn($user.user.pfp.loc)}');"
 										>
 											{#if settingPfp}
 												<div class="loading-lg" />
