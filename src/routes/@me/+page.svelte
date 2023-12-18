@@ -31,7 +31,6 @@
 					if (u.attemptedLogin && !u.isLoggedIn) {
 						goto('/login');
 					} else if (u.attemptedLogin) {
-						loading = false;
 						meRes = queryStore({
 							client,
 							query: gql`
@@ -49,11 +48,30 @@
 							`,
 							variables: { id: $user.user?.id }
 						});
+						loading = false;
 					}
 				});
 			} else {
 				goto('/login');
 			}
+		} else {
+			meRes = queryStore({
+				client,
+				query: gql`
+					query ($id: String!) {
+						getForums(ownerId: $id) {
+							total
+						}
+						getPosts(posterId: $id) {
+							total
+						}
+						getComments(commenterId: $id) {
+							total
+						}
+					}
+				`,
+				variables: { id: $user.user?.id }
+			});
 		}
 	});
 
@@ -112,7 +130,6 @@
 								if (user) {
 									user.banner = {
 										loc: bannerloc,
-										id: undefined
 									};
 								}
 								return {
@@ -187,7 +204,6 @@
 								if (user) {
 									user.pfp = {
 										loc: pfploc,
-										id: undefined
 									};
 								}
 								return {
@@ -205,6 +221,28 @@
 		} else {
 			toast.push(`Invalid file format: ${pfp[0].type}`, { classes: ['error-toast'] });
 		}
+	}
+
+	function createForum() {
+		const createForumRes = mutationStore({
+			client,
+			query: gql`
+				mutation ($name: String!) {
+					createForum(name: $name) {
+						id
+						name
+					}
+				}
+			`,
+			variables: { name: forumName }
+		});
+
+		toast.push(`Creating forum`, { classes: ['success-toast'] });
+		createForumRes.subscribe((res) => {
+			if (res.data) {
+				toast.push(`Created forum: ${res.data.createForum.name}`, { classes: ['success-toast'] });
+			}
+		});
 	}
 </script>
 
@@ -255,9 +293,13 @@
 						<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5">
 							<h2 class="font-bold text-3xl">Create a Forum</h2>
 							<form class="flex flex-col gap-2 mt-5">
-								<TextInput bind:value={forumName} placeholder="Display Name" />
-								<TextInput bind:value={forumSlug} placeholder="URL identifier" />
-								<button class="btn btn-primary mt-5" type="submit">Create Forum</button>
+								<TextInput bind:value={forumName} placeholder="Forum Name" />
+								{#if forumName}
+									<div>URL Identifier: {slug(forumName)}</div>
+								{/if}
+								<button on:click={createForum} class="btn btn-primary mt-5" type="submit"
+									>Create Forum</button
+								>
 							</form>
 						</div>
 					</Modal>
@@ -279,9 +321,15 @@
 							<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5">
 								<h2 class="font-bold text-3xl">Create a Forum</h2>
 								<form class="flex flex-col gap-2 mt-5">
-									<TextInput bind:value={forumName} placeholder="Display Name" />
-									<TextInput bind:value={forumSlug} placeholder="URL identifier" />
-									<button class="btn btn-primary mt-5" type="submit">Create Forum</button>
+									<TextInput bind:value={forumName} placeholder="Forum Name" />
+									{#if forumName}
+										<div class="text-sm text-base-content/70">
+											URL Identifier: {slug(forumName)}
+										</div>
+									{/if}
+									<button on:click={createForum} class="btn btn-primary mt-5" type="submit"
+										>Create Forum</button
+									>
 								</form>
 							</div>
 						</Modal>

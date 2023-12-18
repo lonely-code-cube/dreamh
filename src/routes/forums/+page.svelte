@@ -9,20 +9,20 @@
 		client: getContextClient(),
 		query: gql`
 			query {
-				forums(
-					criteria: { search: "*" }
-					filter: { page: { order: ASC, nextFrom: 1, limit: 20 } }
-				) {
-					forum {
+				getForums {
+					total
+					items {
 						id
 						name
 						displayName
-						description
+						icon {
+							loc
+						}
+						postCount
 						createdAt
+						modifiedAt
 						ownerId
 					}
-					postCount
-					postParticipantCount
 				}
 			}
 		`
@@ -48,10 +48,9 @@
 			</div>
 		</div>
 	{:else}
-		<table class="table table-zebra w-full">
+		<table class="table table-zebra w-full md:mx-10">
 			<thead>
 				<tr>
-					<th>ID</th>
 					<th>Forum</th>
 					<th>Posts</th>
 					<th>Created</th>
@@ -59,24 +58,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each $forums.data.forums as forum (forum.forum.id)}
+				{#each $forums.data.getForums.items as forum (forum.id)}
 					<tr>
-						<td>{forum.forum.id}</td>
 						<td>
-							<a href="/f/{forum.forum.name}">
-								<span><Mention bg="neutral">#{forum.forum.name}</Mention></span>
-								<span>({forum.forum.displayName})</span>
+							<a href="/f/{forum.name}">
+								<span class="font-bold bg-base-300 px-1 rounded">#{forum.name}</span>
 							</a>
 						</td>
 						<td>{forum.postCount}</td>
-						<td>{timeAgo(forum.forum.createdAt)}</td>
-						<td
-							>{#if false}
-								<Mention>@{forum.forum.ownerId}</Mention>
-							{:else}
-								<div class="loading" />
-							{/if}</td
-						>
+						<td>{timeAgo(forum.createdAt)}</td>
+						<td>
+							<Mention>@{forum.ownerId}</Mention>
+						</td>
 					</tr>
 				{/each}
 			</tbody>

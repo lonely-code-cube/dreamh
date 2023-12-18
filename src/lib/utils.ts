@@ -4,8 +4,8 @@ const monthNames = [
 ];
 
 
-export function timeAgo(dateStr: string) {
-    const parsedDate = new Date(dateStr);
+export function timeAgo(timestamp: number) {
+    const parsedDate = new Date(timestamp * 1000);
     const currentDate = new Date();
     const diff = currentDate.valueOf() - parsedDate.valueOf();
 
@@ -28,8 +28,8 @@ export function timeAgo(dateStr: string) {
     }
 }
 
-export function formatDate(dateStr: string) {
-    const parsedDate = new Date(dateStr);
+export function formatDate(timestamp: number) {
+    const parsedDate = new Date(timestamp * 1000);
 
     const day = parsedDate.getDate();
     const monthIndex = parsedDate.getMonth();

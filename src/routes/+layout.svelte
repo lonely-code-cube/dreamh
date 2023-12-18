@@ -47,11 +47,15 @@
 			errorExchange({
 				onError(error) {
 					error.graphQLErrors.forEach((e) => {
-						switch (e.extensions.tp) {
-							case 'UNAUTHENTICATED_REQUEST':
-								break;
-							default:
-								toastError(e.message);
+						if (e.extensions?.tp) {
+							switch (e.extensions.tp) {
+								case 'UNAUTHENTICATED_REQUEST':
+									break;
+								default:
+									toastError(e.message);
+							}
+						} else {
+							toastError(e.message);
 						}
 					});
 				}
@@ -130,6 +134,10 @@
 		<nav class="z-30 sticky top-0 navbar bg-opacity-50 backdrop-blur-md min-h-0 h-14 shadow-lg">
 			<div class="navbar-start" />
 			<div class="navbar-end">
+				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
+					<Icon class="text-2xl" icon="icon-park-outline:search" />
+				</button>
+				<SearchModal bind:searchOpen />
 				<div class="dropdown dropdown-left dropdown-bottom">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->
@@ -156,10 +164,6 @@
 						{/each}
 					</ul>
 				</div>
-				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
-					<Icon class="text-2xl" icon="icon-park-outline:search" />
-				</button>
-				<SearchModal bind:searchOpen />
 				{#if $user.isLoggedIn}
 					<div class="btn btn-ghost btn-circle">
 						<a href="/@me" class="avatar">

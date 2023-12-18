@@ -1,7 +1,6 @@
 declare module "api" {
     export type File = {
-        id: string | null | undefined,
-        loc: string | null | undefined,
+        loc: string,
     }
 
     export type User = {
@@ -11,7 +10,7 @@ declare module "api" {
         bio: null | string | undefined,
         pfp: File | undefined,
         banner: File | undefined,
-        createdAt: string | undefined,
+        createdAt: number | undefined,
         admin: boolean | undefined
     }
 
@@ -31,7 +30,7 @@ declare module "api" {
         icon: File | undefined,
         banner: File | undefined,
         description: string | null | undefined,
-        createdAt: string | undefined,
+        createdAt: number | undefined,
         ownerId: number | undefined,
     }
 

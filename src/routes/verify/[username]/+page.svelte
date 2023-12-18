@@ -42,7 +42,7 @@
 	}
 </script>
 
-<div class="flex justify-center items-center h-[600px] md:h-[700px]">
+<div class="flex justify-center items-center h-[600px] md:h-[800px]">
 	<div class="w-full md:w-96 lg:w-[500px] bg-base-200 p-5 shadow-lg shadow-base-300 mx-5">
 		<h2 class="font-bold text-3xl">Verify Email</h2>
 		<form class="flex flex-col gap-2 mt-5">

@@ -33,3 +33,18 @@ export async function createPost(client: Client, forum: number, title: string, t
     });
     return res;
 }
+
+export async function createComment(client: Client, content: string, post: string, replyTo: string | null = null) {
+    const res = await client.mutation(`
+    mutation($pid: String!, $replyTo: String, $content: String!) {
+        createComment(postId: $pid, replyTo: $replyTo, content: $content) {
+            id
+        }
+    }
+    `, {
+        post: {
+            pid: post, replyTo, content
+        }
+    });
+    return res;
+}
