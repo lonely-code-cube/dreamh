@@ -71,7 +71,7 @@
 			<EmailInput bind:error={email_error} bind:value={email} placeholder="Email" />
 			<TextInput bind:error={username_error} bind:value={username} placeholder="Username" />
 			<PasswordInput bind:error={password_error} bind:value={password} placeholder="Password" />
-			<button on:click={register} {disabled} class="btn btn-primary mt-5" type="submit"
+			<button on:click={register} {disabled} class="btn btn-primary mt-5"
 				>Create Account
 				{#if loading}
 					<div class="loading" />
