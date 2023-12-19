@@ -1,5 +1,6 @@
 <script lang="ts">
 	import EntityPreview from '$lib/components/EntityPreview.svelte';
+	import Countdown from '$lib/components/ui/Countdown.svelte';
 	import Icon from '@iconify/svelte';
 	import { queryStore, type Client, gql } from '@urql/svelte';
 
@@ -9,118 +10,37 @@
 	const home = queryStore({
 		client: anilist,
 		query: gql`
-			query ($season: MediaSeason, $seasonYear: Int, $nextSeason: MediaSeason, $nextYear: Int) {
-				trendingAnime: Page(page: 1, perPage: 7) {
-					media(sort: TRENDING_DESC, type: ANIME, isAdult: false) {
-						...media
-					}
-				}
-				trendingManga: Page(page: 1, perPage: 7) {
-					media(sort: TRENDING_DESC, type: MANGA, isAdult: false) {
-						...media
-					}
-				}
-				seasonAnime: Page(page: 1, perPage: 7) {
-					media(
-						season: $season
-						seasonYear: $seasonYear
-						sort: POPULARITY_DESC
-						type: ANIME
-						isAdult: false
-					) {
-						...media
-					}
-				}
-				seasonManga: Page(page: 1, perPage: 7) {
-					media(
-						season: $season
-						seasonYear: $seasonYear
-						sort: POPULARITY_DESC
-						type: MANGA
-						isAdult: false
-					) {
-						...media
-					}
-				}
-				nextSeason: Page(page: 1, perPage: 7) {
-					media(
-						season: $nextSeason
-						seasonYear: $nextYear
-						sort: POPULARITY_DESC
-						type: ANIME
-						isAdult: false
-					) {
-						...media
-					}
-				}
-				popular: Page(page: 1, perPage: 7) {
-					media(sort: POPULARITY_DESC, type: ANIME, isAdult: false) {
-						...media
-					}
-				}
-				top: Page(page: 1, perPage: 10) {
-					media(sort: SCORE_DESC, type: ANIME, isAdult: false) {
-						...media
-					}
-				}
-			}
-
-			fragment media on Media {
-				id
-				title {
-					userPreferred
-				}
-				coverImage {
-					extraLarge
-					large
-					color
-				}
-				startDate {
-					year
-					month
-					day
-				}
-				endDate {
-					year
-					month
-					day
-				}
-				bannerImage
-				season
-				seasonYear
-				description
-				type
-				format
-				status(version: 2)
-				episodes
-				duration
-				chapters
-				volumes
-				genres
-				isAdult
-				averageScore
-				popularity
-				mediaListEntry {
-					id
-					status
-				}
-				nextAiringEpisode {
-					airingAt
-					timeUntilAiring
-					episode
-				}
-				studios(isMain: true) {
-					edges {
-						isMain
-						node {
-							id
-							name
+			query {
+				airs: Page {
+					media(seasonYear: 2023, season: FALL, type: ANIME, status: RELEASING) {
+						id
+						title {
+							userPreferred
+							english
+						}
+						coverImage {
+							large
+						}
+						status
+						seasonYear
+						season
+						episodes
+						nextAiringEpisode {
+							airingAt
+							episode
 						}
 					}
 				}
 			}
 		`
 	});
+
+	function sortAir(a: any, b: any) {
+		if (a.nextAiringEpisode?.airingAt && b.nextAiringEpisode?.airingAt) {
+			return a.nextAiringEpisode.airingAt > b.nextAiringEpisode.airingAt ? 1 : -1;
+		}
+		return 0;
+	}
 </script>
 
 <svelte:head>
@@ -167,8 +87,8 @@
 
 <div>
 	<div class="m-3 md:m-5">
-		<a href="/anime/trending" class="mb-5 flex justify-between items-center">
-			<div class="font-semibold">TRENDING ANIME</div>
+		<a href="/anime/airing" class="mb-5 flex justify-between items-center">
+			<div class="font-semibold">AIRING ANIME</div>
 			<a href="/anime/trending" class="text-sm">View More</a>
 		</a>
 		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
@@ -183,7 +103,7 @@
 			{:else if $home.error}
 				<p>Oh no... {$home.error.message}</p>
 			{:else}
-				{#each $home.data.trendingAnime.media as media}
+				{#each $home.data.airs.media.sort(sortAir).slice(0, 7) as media}
 					<div
 						class="[&:nth-child(7)]:hidden md:[&:nth-child(6)]:hidden lg:[&:nth-child(6)]:block lg:[&:nth-child(7)]:block"
 					>
@@ -191,7 +111,14 @@
 							thumbnail={media.coverImage.large}
 							title={media.title.userPreferred}
 							url={`/anime/${media.id}`}
-						/>
+						>
+							<span class="px-1 py-0.5 bg-base-100/60 rounded font-semibold" slot="corner-tl">
+								<Countdown at={media.nextAiringEpisode.airingAt} />
+							</span>
+							<span class="px-1 py-0.5 bg-base-100/60 rounded font-semibold" slot="corner-br">
+								EP {media.nextAiringEpisode.episode}
+							</span>
+						</EntityPreview>
 					</div>
 				{/each}
 			{/if}
