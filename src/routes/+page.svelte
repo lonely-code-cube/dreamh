@@ -86,10 +86,10 @@
 </svelte:head>
 
 <div>
-	<div class="m-3 md:m-5">
-		<a href="/anime/airing" class="mb-5 flex justify-between items-center">
-			<div class="font-semibold">AIRING ANIME</div>
-			<a href="/anime/trending" class="text-sm">View More</a>
+	<div class="m-3 md:mx-5">
+		<a href="/anime/airing" class="mb-3 flex justify-between items-center">
+			<div class="font-semibold text-base">AIRING ANIME</div>
+			<a href="/anime/airing" class="text-sm">View More</a>
 		</a>
 		<div class="grid grid-flow-col grid-rows-2 md:grid-rows-1 gap-3 md:gap-5 justify-between">
 			{#if $home.fetching}

@@ -1,11 +1,6 @@
-export let themes = ["sunset", "halloween", "lemonade", "garden", "black", "cupcake"];
+export let themes = ["dark"];
 export let modes: { [index: string]: string } = {
-    sunset: "dark",
-    halloween: "dark",
-    lemonade: "light",
-    garden: "light",
-    black: "dark",
-    cupcake: "light",
+    dark: "dark",
 };
 
 export function themeBtn() {
