@@ -1,13 +1,13 @@
 <script lang="ts">
 </script>
 
-<div class="p-5">
+<div class="mx-3 mt-2">
 	<div class="flex gap-2 items-center">
 		<img src="dreamh_art.png" class="w-10 light-invert" alt="" />
 		<div class="text-xl font-medium">DreamH</div>
 	</div>
-	<div class="prose mt-10">
-		<h1 class="font-bold text-3xl md:text-4xl">
+	<div id="contents" class="mt-10">
+		<h1 class="font-bold md:text-3xl">
 			<a href="#contents" class="text-base-content/50">#</a> Contents
 		</h1>
 		<div class="m-3 mx-10">
@@ -16,8 +16,8 @@
 			<li><a href="#api" class="link link-primary">DreamH API</a></li>
 		</div>
 	</div>
-	<div class="prose mt-10">
-		<h1 class="font-bold text-3xl md:text-4xl">
+	<div class="mt-10">
+		<h1 class="font-bold text-2xl md:text-3xl">
 			<a href="#introduction" class="text-base-content/50">#</a> Introduction
 		</h1>
 		<div class="m-3 mx-8">
@@ -26,8 +26,8 @@
 			officia! Nihil rem eos doloremque.
 		</div>
 	</div>
-	<div class="prose mt-10">
-		<h1 class="font-bold text-3xl md:text-4xl">
+	<div class="mt-10">
+		<h1 class="font-bold text-2xl md:text-3xl">
 			<a href="#api" class="text-base-content/50">#</a> DreamH API
 		</h1>
 		<div class="m-3 mx-8">

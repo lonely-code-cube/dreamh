@@ -21,6 +21,8 @@
 	import type { User } from 'api';
 	import SearchModal from '$lib/components/SearchModal.svelte';
 	import { PUBLIC_RTWALK_URL } from '$env/static/public';
+	import TextInput from '$lib/components/ui/TextInput.svelte';
+	import { slide } from 'svelte/transition';
 
 	let user: Writable<{
 		isLoggedIn: boolean;
@@ -131,13 +133,27 @@
 		>
 			<Icon class="text-2xl" icon="ic:round-menu" />
 		</label>
+		{#if searchOpen}
+			<nav
+				transition:slide
+				class="z-40 absolute flex justify-center top-0 navbar bg-opacity-50 backdrop-blur-md min-h-0 h-14 shadow-lg"
+			>
+				<div class="ml-12 pb-5 w-full md:w-[50%]">
+					<TextInput placeholder="Search">
+						<svelte:fragment slot="icon">
+							<Icon class="text-xl mb-1" icon="fe:search" />
+						</svelte:fragment>
+					</TextInput>
+				</div>
+			</nav>
+		{/if}
 		<nav class="z-30 sticky top-0 navbar bg-opacity-50 backdrop-blur-md min-h-0 h-14 shadow-lg">
 			<div class="navbar-start" />
 			<div class="navbar-end">
 				<button on:click={() => (searchOpen = true)} class="btn btn-ghost btn-circle">
 					<Icon class="text-2xl" icon="icon-park-outline:search" />
 				</button>
-				<SearchModal bind:searchOpen />
+				<!-- <SearchModal bind:searchOpen /> -->
 				<div class="dropdown dropdown-left dropdown-bottom">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<!-- svelte-ignore a11y-label-has-associated-control -->

@@ -130,12 +130,12 @@
 			</div>
 			<div class="flex flex-wrap gap-4">
 				<div class="flex items-center">
-					<Icon class="text-2xl" icon="tabler:arrow-big-up" />
+					<Icon class="text-xl" icon="tabler:arrow-big-up" />
 					<span>{$postRes.data.getPost.upvotes}</span>
 				</div>
 
 				<div class="flex items-center">
-					<Icon class="text-2xl" icon="tabler:arrow-big-down" />
+					<Icon class="text-xl" icon="tabler:arrow-big-down" />
 					<span>{$postRes.data.getPost.downvotes}</span>
 				</div>
 

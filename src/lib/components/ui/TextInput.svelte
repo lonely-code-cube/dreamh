@@ -9,7 +9,7 @@
 	}
 </script>
 
-<div>
+<div class="w-full">
 	<div class="relative mt-2">
 		<input
 			on:input={onInput}
