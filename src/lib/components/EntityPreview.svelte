@@ -3,9 +3,20 @@
 	export let thumbnail: string | undefined;
 	export let title: string | undefined;
 	export let url: string | undefined;
+
+	let hover = false;
 </script>
 
-<a class="transition flex flex-col w-[110px] md:w-[161px] lg:w-[185px]" href={url}>
+<a
+	on:mouseenter={() => {
+		hover = true;
+	}}
+	on:mouseleave={() => {
+		hover = false;
+	}}
+	class="transition flex flex-col w-[110px] md:w-[161px] lg:w-[185px]"
+	href={url}
+>
 	<div
 		class="relative rounded p-5 bg-cover bg-top flex-grow h-[166px] md:h-[230px] lg:h-[264px] shadow-lg bg-base-content/10"
 		class:skeleton={loading}

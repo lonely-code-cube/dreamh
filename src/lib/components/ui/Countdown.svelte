@@ -18,7 +18,6 @@
 			d = Math.floor(seconds / (1000 * 60 * 60 * 24));
 			h = Math.floor((seconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			m = Math.floor((seconds % (1000 * 60 * 60)) / (1000 * 60));
-			s = Math.floor((seconds % (1000 * 60)) / 1000);
 
 			if (seconds < 0) {
 				clearInterval(timer);
@@ -34,12 +33,5 @@
 	{#if h > 0}
 		<span>{h}h</span>
 	{/if}
-	<span class="flex">
-		{#if m > 0}
-			<span>{m}:</span>
-		{/if}
-		{#if s > 0}
-			<span>{s}</span>
-		{/if}
-	</span>
+	<span>{m}m</span>
 </span>

@@ -5,7 +5,7 @@
 	import { queryStore, type Client, gql } from '@urql/svelte';
 	import { slide } from 'svelte/transition';
 
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	let anilist: Client = getContext('anilist');
 
 	const home = queryStore({
@@ -51,6 +51,9 @@
 							userPreferred
 						}
 						bannerImage
+						tags {
+							name
+						}
 					}
 				}
 			}
@@ -66,6 +69,15 @@
 
 	let y: number;
 	let currentBanner = 0;
+	let cri: number | undefined;
+
+	onMount(() => {
+		cri = setInterval(() => {
+			if ($home.data) {
+				currentBanner = (currentBanner + 1) % $home.data.trendingAnime.media.length;
+			}
+		}, 4000);
+	});
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -130,12 +142,13 @@
 								style="background: linear-gradient(to bottom, oklch(var(--b1) / 0.7) 10%, rgba(0, 0, 0, {y >
 								800
 									? 0.8
-									: y / 300}) 50%,  oklch(var(--b1)/0.7) 100%);"
+									: y / 300}) 50%,  oklch(var(--b1)) 100%);"
 								class="absolute inset-0"
 							>
 								<button
 									class:hidden={y > 100}
 									on:click={() => {
+										clearInterval(cri);
 										currentBanner = (currentBanner + 1) % $home.data.trendingAnime.media.length;
 									}}
 									class="absolute top-5 right-5 drop-shadow-[0px_0px_5px_#000] text-3xl"
@@ -145,6 +158,7 @@
 								<button
 									class:hidden={y > 100}
 									on:click={() => {
+										clearInterval(cri);
 										currentBanner =
 											currentBanner - 1 < 0
 												? $home.data.trendingAnime.media.length - 1
@@ -155,10 +169,16 @@
 									<Icon icon="icon-park-solid:down-c" />
 								</button>
 							</div>
-							<div
-								class="absolute top-5 left-5 w-2/3 text-2xl md:text-5xl font-bold drop-shadow-[0px_0px_5px_#000]"
-							>
-								{a.title.userPreferred}
+							<div class="absolute top-5 left-5 drop-shadow-[0px_0px_10px_#000] w-2/3 md:w-1/2">
+								<div class="text-2xl md:text-5xl font-bold">{a.title.userPreferred}</div>
+								<div class="flex gap-1 flex-wrap">
+									{#each a.tags.slice(0, 5) as t, i}
+										<span class="badge text-xs {['bp', 'bs', 'ba'][i % 3]}">{t.name}</span>
+									{/each}
+								</div>
+								<div class="font-bold text-xl mt-5">
+									Join the <a href="/" class="link link-primary">forum</a>!
+								</div>
 							</div>
 						</div>
 					</div>
@@ -193,10 +213,10 @@
 								title={media.title.userPreferred}
 								url={`/anime/${media.id}`}
 							>
-								<span class="px-1 py-0.5 bg-base-100/70 rounded font-semibold" slot="corner-tl">
+								<span class="px-1 py-0.5 bg-base-100 rounded font-semibold" slot="corner-tl">
 									<Countdown at={media.nextAiringEpisode.airingAt} />
 								</span>
-								<span class="px-1 py-0.5 bg-base-100/70 rounded font-semibold" slot="corner-br">
+								<span class="px-1 py-0.5 bg-base-100 rounded font-semibold" slot="corner-br">
 									EP {media.nextAiringEpisode.episode}
 								</span>
 							</EntityPreview>
@@ -239,3 +259,15 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.bp {
+		@apply badge-primary;
+	}
+	.bs {
+		@apply badge-secondary;
+	}
+	.ba {
+		@apply badge-accent;
+	}
+</style>
