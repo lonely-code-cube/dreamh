@@ -66,8 +66,6 @@
 
 	let y: number;
 	let currentBanner = 0;
-
-	$: console.log(y);
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -115,11 +113,17 @@
 
 <div class="scroll-smooth">
 	{#if $home.fetching}
-		<div class="h-64 md:h-[30rem] skeleton" style="transform: translate(0, {y - y / 4}px);" />
+		<div
+			class="h-64 md:h-[30rem] skeleton"
+			style="transform: translate(0, {Math.floor(y - y / 4)}px);"
+		/>
 	{:else if $home.data}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div class="h-64 md:h-[30rem] relative" style="transform: translate(0, {y - y / 4}px);">
+		<div
+			class="h-64 md:h-[30rem] relative"
+			style="transform: translate(0, {Math.floor(y - y / 4)}px);"
+		>
 			{#each $home.data.trendingAnime.media as a, i}
 				{#if i == currentBanner}
 					<div
@@ -131,7 +135,7 @@
 							<div
 								style="background: linear-gradient(to bottom, oklch(var(--b1) / {y > 800
 									? 0.8
-									: y / 700}) 0%, oklch(var(--b1)) 100%);"
+									: Math.round(y / 70) / 10}) 0%, oklch(var(--b1)) 100%);"
 								class="absolute inset-0"
 							>
 								<button
