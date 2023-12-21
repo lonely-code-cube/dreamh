@@ -170,13 +170,13 @@
 								</button>
 							</div>
 							<div class="absolute top-5 left-5 drop-shadow-[0px_0px_10px_#000] w-2/3 md:w-1/2">
-								<div class="text-2xl md:text-5xl font-bold">{a.title.userPreferred}</div>
-								<div class="flex gap-1 flex-wrap">
+								<div class="text-2xl md:text-5xl font-bold line-clamp-2">{a.title.userPreferred}</div>
+								<div class="mt-1 flex gap-1 flex-wrap">
 									{#each a.tags.slice(0, 5) as t, i}
 										<span class="badge text-xs {['bp', 'bs', 'ba'][i % 3]}">{t.name}</span>
 									{/each}
 								</div>
-								<div class="font-bold text-xl mt-5">
+								<div class="font-bold text-xl md:mt-5">
 									Join the <a href="/" class="link link-primary">forum</a>!
 								</div>
 							</div>
