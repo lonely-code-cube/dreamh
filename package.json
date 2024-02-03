@@ -45,6 +45,7 @@
 		"@urql/svelte": "^4.0.3",
 		"graphql": "^16.7.1",
 		"hls.js": "^1.4.10",
+		"mediasoup-client": "^3.7.1",
 		"moo": "^0.5.2",
 		"slug": "^8.2.3",
 		"vidstack": "^0.6.13",

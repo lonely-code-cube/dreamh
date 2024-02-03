@@ -356,4 +356,8 @@
 		background-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er) / 1)) 90%, black);
 		border-color: color-mix(in oklab, var(--fallback-er, oklch(var(--er) / 1)) 90%, black);
 	}
+
+	::-webkit-scrollbar {
+		display: none;
+	}
 </style>
