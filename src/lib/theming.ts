@@ -1,6 +1,7 @@
-export let themes = ["ApricotMyst"];
+export let themes = ["ApricotMyst", "AmoledDark"];
 export let modes: { [index: string]: string } = {
     ApricotMyst: "dark",
+    AmoledDark: "dark"
 };
 
 export function themeBtn() {

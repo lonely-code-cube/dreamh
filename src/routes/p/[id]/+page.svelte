@@ -33,11 +33,12 @@
 					total
 					items {
 						id
+						commenterId
 						content
 						upvotes
 						downvotes
 						modifiedAt
-                        replyCount
+						replyCount
 					}
 				}
 			}
@@ -150,9 +151,9 @@
 				<!-- <Mention copy={$postRes.data.getPost.id} bg="base-300">
 					p:<span class="text-sm font-normal">{$postRes.data.getPost.id}</span>
 				</Mention> -->
-                <button class="flex items-center">
-                    <Icon class="text-2xl" icon="pepicons-pencil:dots-x" />
-                </button>
+				<button class="flex items-center">
+					<Icon class="text-2xl" icon="pepicons-pencil:dots-x" />
+				</button>
 			</div>
 		</div>
 		<div class="mt-5 -translate-x-4">

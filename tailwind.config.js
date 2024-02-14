@@ -24,6 +24,19 @@ export default {
           "error": "#f87171",
         }
       },
+      {
+        AmoledDark: {
+          "primary": "#bbf7d0",
+          "secondary": "#fca5a5",
+          "accent": "#93c5fd",
+          "neutral": "#281e06",
+          "base-100": "#000000",
+          "info": "#60a5fa",
+          "success": "#00b054",
+          "warning": "#ffd100",
+          "error": "#f43f5e",
+        },
+      },
     ],
   },
 }

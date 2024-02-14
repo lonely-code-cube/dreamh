@@ -123,13 +123,13 @@
 	<meta property="twitter:image" content="/embed_img.png" />
 </svelte:head>
 
-<div class="scroll-smooth" style="will-change: transform;">
+<div>
 	{#if $home.fetching}
 		<div class="h-64 md:h-[30rem] skeleton" style="transform: translate(0, {y - y / 4}px);" />
 	{:else if $home.data}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div class="h-64 md:h-[30rem] relative" style="transform: translate(0, {y / 2}px);">
+		<div class="h-64 md:h-[30rem] relative">
 			{#each $home.data.trendingAnime.media as a, i}
 				{#if i == currentBanner}
 					<div
@@ -177,9 +177,6 @@
 									{#each a.tags.slice(0, 5) as t, i}
 										<span class="badge text-xs {['bp', 'bs', 'ba'][i % 3]}">{t.name}</span>
 									{/each}
-								</div>
-								<div class="font-bold text-xl md:mt-5">
-									Join the <a href="/" class="link link-primary">forum</a>!
 								</div>
 							</div>
 						</div>

@@ -26,6 +26,7 @@
 							total
 							items {
 								id
+								commenterId
 								content
 								upvotes
 								downvotes
@@ -69,7 +70,7 @@
 			>
 		</div> -->
 		<div class="font-semibold text-sm">
-			Midnight <span class="font-normal text-xs">• {timeAgo(comment.modifiedAt)}</span>
+			{comment.commenterId} <span class="font-normal text-xs">• {timeAgo(comment.modifiedAt)}</span>
 		</div>
 		<button on:click={onReplyOpen} class="pt-1 pb-2.5 rounded text-sm">
 			<LinoBlock text={comment.content} />

@@ -5,7 +5,7 @@
 	let rendered = linoParse(lexer);
 </script>
 
-<div class="lino pre-line">
+<div class="lino text-left pre-line">
 	{@html rendered}
 </div>
 
@@ -50,7 +50,13 @@
 	}
 
 	:global(.lino .a) {
-		background: linear-gradient(-45deg, theme(colors.primary), theme(colors.primary), theme(colors.accent), theme(colors.accent));
+		background: linear-gradient(
+			-45deg,
+			theme(colors.primary),
+			theme(colors.primary),
+			theme(colors.accent),
+			theme(colors.accent)
+		);
 		background-size: 300%;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
