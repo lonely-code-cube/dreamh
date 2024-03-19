@@ -91,13 +91,13 @@
 			const uploadResult = mutationStore({
 				client,
 				query: gql`
-					mutation ($uploads: [Upload!]!) {
-						upload(uploads: $uploads) {
-							id
+					mutation ($files: [Upload!]!) {
+						uploadFiles(files: $files) {
+							loc
 						}
 					}
 				`,
-				variables: { uploads: [banner[0]] }
+				variables: { files: [banner[0]] }
 			});
 			uploadResult.subscribe((res) => {
 				if (res.fetching) {
@@ -106,7 +106,7 @@
 					toast.push(res.error.message, { classes: ['error-toast'] });
 					settingBanner = false;
 				} else if (res.data) {
-					const bannerId = res.data.upload[0].id;
+					const bannerId = res.data.uploadFiles[0].id;
 					const updateResult = mutationStore({
 						client,
 						query: gql`
@@ -129,7 +129,7 @@
 							user.update(({ isLoggedIn, attemptedLogin, user }) => {
 								if (user) {
 									user.banner = {
-										loc: bannerloc,
+										loc: bannerloc
 									};
 								}
 								return {
@@ -203,7 +203,7 @@
 							user.update(({ isLoggedIn, attemptedLogin, user }) => {
 								if (user) {
 									user.pfp = {
-										loc: pfploc,
+										loc: pfploc
 									};
 								}
 								return {
@@ -462,8 +462,12 @@
 						<div data-title="Assets" data-icon="material-symbols:media-link-sharp" />
 						<div data-title="Settings" data-icon="ion:settings" />
 						<div data-title="Edit Profile" data-icon="material-symbols:edit">
-							<div class="mx-3">
-								<div>
+							<div class="mx-3 flex">
+								<div class="flex-grow flex flex-col gap-2 my-2">
+									<TextInput placeholder="Change Nickname" />
+									<TextInput placeholder="Change Username" />
+								</div>
+								<div class="p-3 w-1/3">
 									{#if $user.user?.pfp?.loc}
 										<div
 											class="mt-5 mx-auto w-32 h-32 rounded-full bg-base-200 shadow-lg flex items-center justify-center border border-primary bg-contain"
@@ -501,8 +505,6 @@
 										</div>
 									{/if}
 								</div>
-								<TextInput placeholder="Change Nickname" />
-								<TextInput placeholder="Change Username" />
 							</div>
 						</div>
 					</Tabs>

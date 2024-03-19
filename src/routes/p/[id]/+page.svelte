@@ -34,6 +34,9 @@
 					items {
 						id
 						commenterId
+						commenter {
+							displayName
+						}
 						content
 						upvotes
 						downvotes
