@@ -119,14 +119,14 @@
 		| ClientConsume
 		| ClientConsumerResume;
 
+	let container: HTMLElement;
+
 	class Peer {
 		private readonly figure: HTMLElement;
 		private readonly preview: HTMLVideoElement;
 		private readonly mediaStream = new MediaStream();
 
 		constructor(public readonly id: PeerId) {
-			const container = document.querySelector('#container')!;
-
 			this.figure = document.createElement('figure');
 			this.preview = document.createElement('video');
 
@@ -414,20 +414,15 @@
 	});
 </script>
 
-<div id="container" class="flex gap-2">
+<div bind:this={container} class="flex gap-2 m-5">
 	<figure>
-		<video id="preview-send" muted controls />
+		<video id="preview-send" muted />
 		<figcaption>You</figcaption>
 	</figure>
 </div>
 
-<style>
-	figure {
-		margin: 0;
-		width: 30%;
-	}
-
+<style lang="postcss">
 	video {
-		max-width: 300px;
+		@apply w-[300px] border border-primary rounded;
 	}
 </style>
